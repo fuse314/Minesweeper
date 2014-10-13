@@ -12,7 +12,8 @@ public class Board {
 			}
 		}
 		
-		this._anzahlMinen = (_size * _size / 100) * _difficulty;
+		this._anzahlMinen = (int)Math.round(((double)_size * (double)_size / 100.0) * _difficulty);
+		ConsoleHelper.writeLine("" + _anzahlMinen);
 		for(int k=0;k<this._anzahlMinen;k++) {
 			boolean _success = false;
 			do {
@@ -98,7 +99,7 @@ public class Board {
 		} else {
 			_line = "  ";
 		}
-		char _alph = 64;
+		char _alph = 65;
 		for(int i=0;i<_size;i++) {
 			_line += " | " + (char)(_alph+i);
 		}
