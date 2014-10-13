@@ -10,22 +10,54 @@ public final class ConsoleHelper {
 		}
 	}
 	
+	public static void writeLine(String text)
+	{
+		System.out.println(text);
+	}
+	
 	public static String askQuestion(String question, String... possibleAnswers)
 	{
+		String retVal = "";
+		String answerList = "";
+		boolean gotAnswer = false;
 		Console c = System.console();
 		
-		String answerList = "(";
-		for(int i = 0; i < possibleAnswers.length; i++)
+		if(possibleAnswers.length > 0)
 		{
-			answerList += possibleAnswers[i];
+			answerList = "(";
+			for(int i = 0; i < possibleAnswers.length; i++)
+			{
+				answerList += possibleAnswers[i];
+			}
+			answerList += ")";
 		}
-		answerList += ")";
 		
-		System.out.println(question + " " + answerList);
-		
-		String retVal = c.readLine();
-		
-		clearConsole();
+		while(!gotAnswer)
+		{
+			System.out.println(question + " " + answerList);
+			retVal = c.readLine();
+			
+			if(possibleAnswers.length > 0)
+			{
+				for(int i = 0; i < possibleAnswers.length; i++)
+				{
+					if(possibleAnswers[i].toUpperCase().equals(retVal.toUpperCase()))
+					{
+						gotAnswer = true;
+					}
+				}
+				
+				if(!gotAnswer)
+					System.out.println("Die Eingabe entspricht nicht der Antwortliste! Bitte ŸberprŸfe die Eingabe");
+			}
+			else
+			{
+				if(retVal.length() > 0)
+					gotAnswer = true;
+				else
+					System.out.println("Es muss eine Eingabe gemacht werden.");
+			}
+		}
 		
 		return retVal;
 	}
