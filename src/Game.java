@@ -1,33 +1,26 @@
-import java.io.IOException;
-import java.util.Date;
 import java.util.Timer;
 
 
 public class Game {
 	
 	Board _board;
-	
-	Date _startZeit;
-	
+	int elapsedSeconds;
 	int _schwierigkeitsgrad;
-	
 	Player _player1;
-	
 	Player _player2;
-	
 	Player _activePlayer;
-	
 	Timer _timer;
 	UpdateTimeTimerTask _updateTimeTask;
+	Highscore _highscore;
 	
 	public Game()
 	{
 		_timer = new Timer(true);
 		_updateTimeTask = new UpdateTimeTimerTask(this, _timer);
+		elapsedSeconds = 0;
 	}
 
 	public void initialize() {
-		
 		String answer = ConsoleHelper.askQuestion("Spielst du [a]lleine oder zu [z]weit?", "a", "z");
 		
 		if(answer.equals("a"))
@@ -64,13 +57,15 @@ public class Game {
 			_schwierigkeitsgrad = 99;
 		}
 		
+		_highscore = new Highscore(_schwierigkeitsgrad);
+		
 		answer = ConsoleHelper.askQuestion("WŠhle eine Spielbrettgršsse: 5x5 / 7x7 / 10x10", "5", "7", "10");
 		
 		int brettGroesse = Integer.parseInt(answer);
 		
 		_board = new Board(brettGroesse, _schwierigkeitsgrad);
 		
-		//_timer.scheduleAtFixedRate(_updateTimeTask,1000, 1000);
+		_timer.scheduleAtFixedRate(_updateTimeTask,1000, 1000);
 	}
 	
 	private String askForPlayerName()
@@ -94,7 +89,7 @@ public class Game {
 		while(!gameFinished)
 		{
 			ConsoleHelper.clearConsole();
-			
+				
 			printPlayerStats();
 			
 			_board.zeichnen(false);
@@ -128,29 +123,29 @@ public class Game {
 					if(!getIsMultiplayer())
 					{
 						_activePlayer.setLives(_activePlayer.getLives() - 1);
-						if(_activePlayer.getLives() > 0)
-							ConsoleHelper.writeLine("Auf dem Feld war eine Bombe! Du hast noch " + _activePlayer.getLives() + " Leben!");
-						else
+						if(!(_activePlayer.getLives() > 0))
+							//ConsoleHelper.writeLine("Auf dem Feld war eine Mine! Du hast noch " + _activePlayer.getLives() + " Leben!");
+						//else
 						{
-							ConsoleHelper.writeLine("GAME OVER!!!!");
 							gameFinished = true;
 						}
 					}
 					else
 					{
 						_activePlayer.setFoundBombs(_activePlayer.getFoundBombs() + 1);
-						ConsoleHelper.writeLine("Auf dem Feld war eine Bombe! Du hast schon " + _activePlayer.getFoundBombs() + "Bomben gefunden");
+						//ConsoleHelper.writeLine("Auf dem Feld war eine Mine! Du hast schon " + _activePlayer.getFoundBombs() + " Minen gefunden");
 					}
 				}
 			}
 			
-			ConsoleHelper.writeLine("DrŸcke Enter um den nŠchsten Zug zu starten");
-			
-			try {
-				System.in.read();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(getIsMultiplayer())
+			{
+				if(_activePlayer.getFoundBombs() > (_board.getAnzahlMinen() / 2.0) + 1)
+					gameFinished = true;
+			}
+			else
+			{
+				gameFinished = _board.alleFelderAufgedeckt();
 			}
 			
 			if(getIsMultiplayer())
@@ -158,6 +153,54 @@ public class Game {
 					_activePlayer = _player2;
 				else
 					_activePlayer = _player1;
+		}
+		
+		showGameOverStats();
+	}
+
+	private void showGameOverStats() {
+		//Spiel ist fertig, entweder gewonnen oder alle leben verloren
+		
+		if(!getIsMultiplayer())
+		{
+			if(_player1.getLives() == 0)
+			{
+				ConsoleHelper.clearConsole();
+				
+				ConsoleHelper.writeLine(" _____ ____  _      _____   ____  _     _____ ____"); 
+				ConsoleHelper.writeLine("/  __//  _ \\/ \\__/|/  __/  /  _ \\/ \\ |\\/  __//  __\\");
+				ConsoleHelper.writeLine("| |  _| / \\|| |\\/|||  \\    | / \\|| | //|  \\  |  \\/|");
+				ConsoleHelper.writeLine("| |_//| |-||| |  |||  /_   | \\_/|| \\// |  /_ |    /");
+				ConsoleHelper.writeLine("\\____\\\\_/ \\|\\_/  \\|\\____\\  \\____/\\__/  \\____\\\\_/\\_\\");
+			}
+			
+			_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
+				
+			ConsoleHelper.clearConsole();
+			
+			HighscoreEntry[] entries = _highscore.getHighscores();
+			
+			int i = 1;
+			for(HighscoreEntry e : entries)
+			{
+				ConsoleHelper.writeLine(i + ". " + e.getName() + "\t\t\t\t\t" + e.getDateTime());
+			}
+		}
+		
+		_board.zeichnen(true);
+		
+		if(getIsMultiplayer())
+		{
+			Player winner;
+			if(_player1.getFoundBombs() > _player2.getFoundBombs())
+				winner = _player1;
+			else
+				winner = _player2;
+			
+			ConsoleHelper.writeLine("Spieler " + winner.getNickname() + " gewinnt mit " + winner.getFoundBombs() + " Punkten.");
+
+			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundBombs());
+			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundBombs());
 		}
 	}
 	
@@ -177,6 +220,10 @@ public class Game {
 	private boolean getIsMultiplayer()
 	{
 		return _player2 != null;
+	}
+
+	public void updateTime() {
+		elapsedSeconds++;
 	}
 
 }
