@@ -1,4 +1,11 @@
-/HighScore.class
-/HighScoreEntry.class
-/HighscoreEntry.class
+/Board.class
+/ConsoleHelper.class
+/Field.class
+/FieldZustand.class
+/Game.class
+/Helper.class
 /Highscore.class
+/HighscoreEntry.class
+/Main.class
+/Player.class
+/UpdateTimeTimerTask.class
