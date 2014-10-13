@@ -21,8 +21,8 @@ public class Board {
 				int _y = (int)(Math.random() * _size);
 				_x = Helper.constrain(_x,0,_size-1);
 				_y = Helper.constrain(_y, 0, _size-1);
-				if(!_fields[_x][_y].isBombe()) {
-					_fields[_x][_y].setBombe(true);
+				if(!_fields[_x][_y].istMine()) {
+					_fields[_x][_y].setMine(true);
 					_success = true;
 				}
 			}
@@ -54,10 +54,20 @@ public class Board {
 	public int getAnzahlMinen() {
 		return this._anzahlMinen;
 	}
+	
 
 	private Field[][] _fields;
 	
-	
+	public boolean alleFelderAufgedeckt() {
+		for(int _x=0;_x<_size;_x++) {
+			for(int _y=0;_y<_size;_y++) {
+				if(!_fields[_x][_y].istAufgedeckt())
+					return false;
+			}
+		}
+		return true;
+	}
+
 	public void markieren(int x, int y) {
 		x = Helper.constrain(x,1,_size);
 		y = Helper.constrain(y,1,_size);
@@ -77,7 +87,8 @@ public class Board {
 		y = Helper.constrain(y, 1, _size);
 		Field _aktField = _fields[x-1][y-1];
 		if(_aktField.getZustand() != FieldZustand.Offen) {
-			if(_aktField.isBombe()) {
+			if(_aktField.istMine()) {
+				_aktField.setZustand(FieldZustand.Offen);
 				return false;   // game over. you are dead.
 			} else {
 				_aktField.setZustand(FieldZustand.Offen);
@@ -92,7 +103,7 @@ public class Board {
 		return true;
 	}
 	
-	public void zeichnen(boolean showBombs) {
+	public void zeichnen(boolean showMines) {
 		String _line;
 		if(_size < 10) {
 			_line = " ";
@@ -112,13 +123,13 @@ public class Board {
 			}
 			_line += "" + (_y+1);
 			for(int _x=0;_x<_size;_x++) {
-				_line += " | " + _fields[_x][_y].toString(showBombs);
+				_line += " | " + _fields[_x][_y].toString(showMines);
 			}
 			ConsoleHelper.writeLine(_line);
 		}
 	}
 	
-
+	
 	private int calcProximity(int x, int y) {
 		return calcProximity(x,y,false);
 	}
@@ -126,7 +137,7 @@ public class Board {
 	private int calcProximity(int x, int y, boolean stop) {
 		if(x < 1 || x > _size || y < 1 || y > _size)
 			return 0;
-		if(_fields[x-1][y-1].isBombe())
+		if(_fields[x-1][y-1].istMine())
 			return 1;
 		if(stop)
 			return 0;

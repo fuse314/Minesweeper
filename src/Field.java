@@ -17,23 +17,34 @@ public class Field {
 		this._zustand = _zustand;
 	}
 
-	private boolean _bombe;
-	public boolean isBombe() {
-		return _bombe;
+	private boolean _mine;
+	public boolean istMine() {
+		return _mine;
 	}
-	public void setBombe(boolean _bombe) {
-		this._bombe = _bombe;
+	public void setMine(boolean _mine) {
+		this._mine = _mine;
 	}
 	
-	public String toString(boolean showBombs) {
-		if(showBombs) {
-			if(_bombe) { return "X"; }
+	public boolean istAufgedeckt() {
+		if(_zustand != FieldZustand.Offen)
+			if(_zustand == FieldZustand.Markiert && _mine)
+				return true;
+		return false;
+	}
+	
+	public String toString(boolean showMines) {
+		if(showMines) {
+			if(_mine) { return "X"; }
 		}
 		switch(_zustand) {
 		case Markiert:
 			return "M";
 		case Offen:
-			return Integer.toString(_proximity);
+			if(_mine) {
+				return "X";
+			} else {
+				return Integer.toString(_proximity);
+			}
 		default:
 			return " ";
 		}

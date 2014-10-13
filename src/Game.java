@@ -106,7 +106,7 @@ public class Game {
 			while(!gotCorrectLocation)
 			{
 				location = ConsoleHelper.askQuestion("WŠhle ein Feld, welches du aufdecken oder markieren mšchtest, z.b. A1:");
-				
+				location = location.toUpperCase();
 				if(location.length() == 2 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1)))
 					gotCorrectLocation = true;
 				else
@@ -114,7 +114,7 @@ public class Game {
 			}
 			
 			int xCoord = location.charAt(0) - 64;
-			int yCoord = location.charAt(1);
+			int yCoord = location.charAt(1) - 48;
 			
 			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "m", "a");
 			
