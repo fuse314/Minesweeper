@@ -7,6 +7,26 @@ public class Board {
 		setDifficulty(difficulty);
 		_fields = new Field[_size][_size];
 		
+		int _numBombs = (_size * _size / 100) * _difficulty;
+		for(int k=0;k<_numBombs;k++) {
+			boolean _success = false;
+			do {
+				int _x = (int)(Math.random() * _size);
+				int _y = (int)(Math.random() * _size);
+				_x = Helper.constrain(_x,0,_size-1);
+				_y = Helper.constrain(_y, 0, _size-1);
+				if(!_fields[_x][_y].isBombe()) {
+					_fields[_x][_y].setBombe(true);
+					_success = true;
+				}
+			}
+			while(_success==false);
+		}
+		for(int i=1;i<=_size;i++) {
+			for(int j=1;j<=_size;j++) {
+				_fields[i-1][j-1].setProximity(calcProximity(i,j));
+			}
+		}
 	}
 	
 	private int _size;
@@ -61,5 +81,54 @@ public class Board {
 		}
 		return true;
 	}
+	
+	public void zeichnen(boolean showBombs) {
+		String _line;
+		if(_size < 10) {
+			_line = " ";
+		} else {
+			_line = "  ";
+		}
+		char _alph = 64;
+		for(int i=0;i<_size;i++) {
+			_line += " | " + (char)(_alph+i);
+		}
+		ConsoleHelper.writeLine(_line);
+		for(int _y=1;_y<=_size;_y++) {
+			if(_y < 10 && _size >= 10) {
+				_line = " ";
+			} else {
+				_line = "";
+			}
+			_line += "" + _y;
+			for(int _x=1;_x<=_size;_x++) {
+				_line += " | " + _fields[_x][_y].toString(showBombs);
+			}
+			ConsoleHelper.writeLine(_line);
+		}
+	}
+	
 
+	private int calcProximity(int x, int y) {
+		return calcProximity(x,y,false);
+	}
+	
+	private int calcProximity(int x, int y, boolean stop) {
+		if(x < 1 || x > _size || y < 1 || y > _size)
+			return 0;
+		if(_fields[x-1][y-1].isBombe())
+			return 1;
+		if(stop)
+			return 0;
+		int _prox = 0;
+		_prox += calcProximity(x-1,y,true);   // left
+		_prox += calcProximity(x-1,y-1,true); // top left
+		_prox += calcProximity(x,y-1,true);   // top
+		_prox += calcProximity(x+1,y-1,true); // top right
+		_prox += calcProximity(x+1,y,true);   // right
+		_prox += calcProximity(x+1,y+1,true); // bottom right
+		_prox += calcProximity(x,y+1,true);   // bottom
+		_prox += calcProximity(x-1,y+1,true); // bottom left
+		return _prox;
+	}
 }
