@@ -23,7 +23,7 @@ public class Game {
 	public Game()
 	{
 		_timer = new Timer(true);
-		_updateTimeTask = new UpdateTimeTimerTask(this);
+		_updateTimeTask = new UpdateTimeTimerTask(this, _timer);
 	}
 
 	public void initialize() {
@@ -70,7 +70,7 @@ public class Game {
 		
 		_board = new Board(brettGroesse, _schwierigkeitsgrad);
 		
-		_timer.schedule(_updateTimeTask, 1000);
+		//_timer.scheduleAtFixedRate(_updateTimeTask,1000, 1000);
 	}
 	
 	private String askForPlayerName()
@@ -142,8 +142,6 @@ public class Game {
 						ConsoleHelper.writeLine("Auf dem Feld war eine Bombe! Du hast schon " + _activePlayer.getFoundBombs() + "Bomben gefunden");
 					}
 				}
-				
-				
 			}
 			
 			ConsoleHelper.writeLine("Drücke Enter um den nächsten Zug zu starten");
@@ -161,7 +159,6 @@ public class Game {
 				else
 					_activePlayer = _player1;
 		}
-		
 	}
 	
 	private void printPlayerStats()

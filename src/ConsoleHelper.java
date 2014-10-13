@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
 import java.io.Console;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 
 public final class ConsoleHelper {
@@ -20,7 +23,8 @@ public final class ConsoleHelper {
 		String retVal = "";
 		String answerList = "";
 		boolean gotAnswer = false;
-		Console c = System.console();
+		//Console c = System.console();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		if(possibleAnswers.length > 0)
 		{
@@ -38,7 +42,12 @@ public final class ConsoleHelper {
 		while(!gotAnswer)
 		{
 			System.out.println(question + " " + answerList);
-			retVal = c.readLine();
+			try {
+				retVal = reader.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			if(possibleAnswers.length > 0)
 			{
