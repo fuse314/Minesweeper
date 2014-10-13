@@ -9,7 +9,7 @@ public class Field {
 		this._proximity = proximity;
 	}
 	
-	private FieldZustand _zustand;
+	private FieldZustand _zustand = FieldZustand.Verdeckt;
 	public FieldZustand getZustand() {
 		return this._zustand;
 	}
