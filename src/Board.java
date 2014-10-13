@@ -103,14 +103,14 @@ public class Board {
 			_line += " | " + (char)(_alph+i);
 		}
 		ConsoleHelper.writeLine(_line);
-		for(int _y=1;_y<=_size;_y++) {
-			if(_y < 10 && _size >= 10) {
+		for(int _y=0;_y<_size;_y++) {
+			if(_y < 9 && _size >= 10) {
 				_line = " ";
 			} else {
 				_line = "";
 			}
-			_line += "" + _y;
-			for(int _x=1;_x<=_size;_x++) {
+			_line += "" + (_y+1);
+			for(int _x=0;_x<_size;_x++) {
 				_line += " | " + _fields[_x][_y].toString(showBombs);
 			}
 			ConsoleHelper.writeLine(_line);
