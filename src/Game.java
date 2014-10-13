@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
 
@@ -67,6 +68,7 @@ public class Game {
 		
 		int brettGroesse = Integer.parseInt(answer);
 		
+		_board = new Board(brettGroesse, _schwierigkeitsgrad);
 		
 		_timer.schedule(_updateTimeTask, 1000);
 	}
@@ -78,18 +80,106 @@ public class Game {
 		while(!foundName)
 		{
 			name = ConsoleHelper.askQuestion("Gib einen Namen an (max 3 Zeichen)");
-			if(name.length() > 2 || name.length() == 0)
+			if(name.length() > 3 || name.length() == 0)
 				ConsoleHelper.writeLine("Der Name darf max. 3 Zeichen lang sein!");
 			else
 				foundName = true;
-				
 		}
 		return name;
 	}
-
+	
 	public void runLoop() {
-		// TODO Auto-generated method stub
+		boolean gameFinished = false;
 		
+		while(!gameFinished)
+		{
+			ConsoleHelper.clearConsole();
+			
+			printPlayerStats();
+			
+			_board.zeichnen(false);
+			
+			ConsoleHelper.writeLine("");
+			
+			boolean gotCorrectLocation = false;
+			String location = "";
+			while(!gotCorrectLocation)
+			{
+				location = ConsoleHelper.askQuestion("Wähle ein Feld, welches du aufdecken oder markieren möchtest, z.b. A1:");
+				
+				if(location.length() == 2 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1)))
+					gotCorrectLocation = true;
+				else
+					ConsoleHelper.writeLine("Die Eingabe ist keine gültige Position!");
+			}
+			
+			int xCoord = location.charAt(0) - 64;
+			int yCoord = location.charAt(1);
+			
+			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "m", "a");
+			
+			if(action.equals("m"))
+				_board.markieren(xCoord, yCoord);
+			else
+			{
+				boolean foundBomb = !_board.aufdecken(xCoord, yCoord);
+				if(foundBomb)
+				{
+					if(!getIsMultiplayer())
+					{
+						_activePlayer.setLives(_activePlayer.getLives() - 1);
+						if(_activePlayer.getLives() > 0)
+							ConsoleHelper.writeLine("Auf dem Feld war eine Bombe! Du hast noch " + _activePlayer.getLives() + " Leben!");
+						else
+						{
+							ConsoleHelper.writeLine("GAME OVER!!!!");
+							gameFinished = true;
+						}
+					}
+					else
+					{
+						_activePlayer.setFoundBombs(_activePlayer.getFoundBombs() + 1);
+						ConsoleHelper.writeLine("Auf dem Feld war eine Bombe! Du hast schon " + _activePlayer.getFoundBombs() + "Bomben gefunden");
+					}
+				}
+				
+				
+			}
+			
+			ConsoleHelper.writeLine("Drücke Enter um den nächsten Zug zu starten");
+			
+			try {
+				System.in.read();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(getIsMultiplayer())
+				if(_activePlayer == _player1)
+					_activePlayer = _player2;
+				else
+					_activePlayer = _player1;
+		}
+		
+	}
+	
+	private void printPlayerStats()
+	{
+		ConsoleHelper.writeLine(_activePlayer.getNickname() + " ist am Zug!");
+		ConsoleHelper.writeLine("Du hast noch " + _activePlayer.getLives() + " Leben");
+		ConsoleHelper.writeLine("");
+		
+		if(getIsMultiplayer())
+		{
+			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundBombs());
+			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundBombs());
+		}
+	}
+	
+	private boolean getIsMultiplayer()
+	{
+		return _player2 != null;
 	}
 
 }

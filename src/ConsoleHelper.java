@@ -27,8 +27,11 @@ public final class ConsoleHelper {
 			answerList = "(";
 			for(int i = 0; i < possibleAnswers.length; i++)
 			{
-				answerList += possibleAnswers[i];
+				answerList += possibleAnswers[i] + "/";
 			}
+			
+			answerList = answerList.substring(0, answerList.length() - 1);
+			
 			answerList += ")";
 		}
 		
