@@ -6,9 +6,14 @@ public class Board {
 		setSize(size);
 		setDifficulty(difficulty);
 		_fields = new Field[_size][_size];
+		for(int _i=0;_i<_size;_i++) {
+			for(int _j=0;_j<_size;_j++) {
+				_fields[_i][_j] = new Field();
+			}
+		}
 		
-		int _numBombs = (_size * _size / 100) * _difficulty;
-		for(int k=0;k<_numBombs;k++) {
+		this._anzahlMinen = (_size * _size / 100) * _difficulty;
+		for(int k=0;k<this._anzahlMinen;k++) {
 			boolean _success = false;
 			do {
 				int _x = (int)(Math.random() * _size);
@@ -43,6 +48,10 @@ public class Board {
 	}
 	private void setDifficulty(int difficulty) {
 		this._difficulty = Helper.constrain(difficulty,1,99);
+	}
+	private int _anzahlMinen;
+	public int getAnzahlMinen() {
+		return this._anzahlMinen;
 	}
 
 	private Field[][] _fields;
