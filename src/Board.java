@@ -12,8 +12,7 @@ public class Board {
 			}
 		}
 		
-		this._anzahlMinen = (int)Math.round(((double)_size * (double)_size / 100.0) * _difficulty);
-		ConsoleHelper.writeLine("" + _anzahlMinen);
+		this._anzahlMinen = Helper.constrain((int)Math.round(((double)_size * (double)_size / 100.0) * _difficulty),1,(_size * _size)-1);
 		for(int k=0;k<this._anzahlMinen;k++) {
 			boolean _success = false;
 			do {
