@@ -9,6 +9,7 @@
 		public Highscore(int _level)
 		{
 			this._level = _level;
+			getHighscores();
 		}
 		
 		//Die setters und getters
@@ -26,10 +27,10 @@
 		//Wird aufgerufen wenn das File leer ist um exceptions vorzubeugen
 		private static void initializeFile()
 		{
-			HighscoreEntry[] h={new HighscoreEntry(0," "),new HighscoreEntry(0," "),new HighscoreEntry(0," "),
-					new HighscoreEntry(0," "),new HighscoreEntry(0," "),new HighscoreEntry(0," "),
-					new HighscoreEntry(0," "),new HighscoreEntry(0," "),new HighscoreEntry(0," "),
-					new HighscoreEntry(0," ")};
+			HighscoreEntry[] h={new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),
+					new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),
+					new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),
+					new HighscoreEntry(99999," ")};
 			try 
 			{
 				System.out.println("Hi1");
@@ -41,13 +42,13 @@
 		}
 		
 		//Liest die .dat Datei und gib die Konstante zurŸck
-		public static HighscoreEntry[] getHighscores()
+		public HighscoreEntry[] getHighscores()
 		{
-			if (!new File("Highscores.dat").exists())
+			if (!new File("Highscores"+_level+".dat").exists())
 				initializeFile();
 			try 
 			{
-				ObjectInputStream o=new ObjectInputStream(new FileInputStream("Highscores.dat"));
+				ObjectInputStream o=new ObjectInputStream(new FileInputStream("Highscores"+_level+".dat"));
 				HighscoreEntry[] h=(HighscoreEntry[]) o.readObject();
 				o.close();
 				return h;
@@ -57,25 +58,32 @@
 		}
 		
 		//Adds a new Highscore to the .dat file and maintains the proper order
-		public static void addHighscore(HighscoreEntry h)
+		public boolean addHighscore(HighscoreEntry h)
 		{
+			boolean _success = false;
+			
 			HighscoreEntry[] HighscoresEntry=getHighscores();
-			HighscoresEntry[HighscoresEntry.length-1]=h;
-			for (int i=HighscoresEntry.length-2; i>=0; i--)
+			//HighscoresEntry[HighscoresEntry.length-1]=h;
+			for (int i=0; i<HighscoresEntry.length-1; i++)
 			{
-				if (HighscoresEntry[i+1].compareTo(HighscoresEntry[i])>0)
+				if (h.compareTo(HighscoresEntry[i])<0)
 				{
-					HighscoreEntry temp=HighscoresEntry[i];
-					HighscoresEntry[i]=HighscoresEntry[i+1];
-					HighscoresEntry[i+1]=temp;
+					for(int j=HighscoresEntry.length-1;j > i;j--) {
+						HighscoresEntry[j]=HighscoresEntry[j-1];
+					}
+					HighscoresEntry[i] = h;
+					_success = true;
+					break;
 				}
 			}
 			try 
 			{
-				ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream("Highscores.dat"));
+				ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream("Highscores"+_level+".dat"));
 				o.writeObject(HighscoresEntry);
 				o.close();
 			} catch (FileNotFoundException e) {e.printStackTrace();} 
 			catch (IOException e) {e.printStackTrace();}
+			
+			return _success;
 		}
 	}

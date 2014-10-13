@@ -12,7 +12,6 @@ class UpdateTimeTimerTask extends TimerTask {
 	}
 	
     public void run() {
-      System.out.println("Time's up!");
-      
+    	_gameInstance.updateTime();
     }
   }

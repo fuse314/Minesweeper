@@ -26,9 +26,12 @@ public class Field {
 	}
 	
 	public boolean istAufgedeckt() {
-		if(_zustand != FieldZustand.Offen)
+		if(_zustand != FieldZustand.Offen) {
 			if(_zustand == FieldZustand.Markiert && _mine)
 				return true;
+		} else {
+			return true;
+		}
 		return false;
 	}
 	
