@@ -71,12 +71,12 @@ public class Board {
 	public void markieren(int x, int y) {
 		x = Helper.constrain(x,1,_size);
 		y = Helper.constrain(y,1,_size);
-		FieldZustand _aktZustand = _fields[x][y].getZustand();
+		FieldZustand _aktZustand = _fields[x-1][y-1].getZustand();
 		if(_aktZustand != FieldZustand.Offen) {
 			if(_aktZustand == FieldZustand.Verdeckt) {
-				_fields[x][y].setZustand(FieldZustand.Markiert);
+				_fields[x-1][y-1].setZustand(FieldZustand.Markiert);
 			} else {
-				_fields[x][y].setZustand(FieldZustand.Verdeckt);
+				_fields[x-1][y-1].setZustand(FieldZustand.Verdeckt);
 			}
 		}
 	}
