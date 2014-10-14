@@ -203,9 +203,11 @@ public class Game {
 				ConsoleHelper.writeLine("| |_//| |-||| |  |||  /_   | \\_/|| \\// |  /_ |    /");
 				ConsoleHelper.writeLine("\\____\\\\_/ \\|\\_/  \\|\\____\\  \\____/\\__/  \\____\\\\_/\\_\\");
 			}
-			
+			else
+			{
 			_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
-				
+			}
+			
 			ConsoleHelper.clearConsole();
 			
 			HighscoreEntry[] entries = _highscore.getHighscores();
@@ -232,6 +234,8 @@ public class Game {
 			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
 			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
 		}
+		
+		_timer.cancel();
 	}
 	
 	

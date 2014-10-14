@@ -29,6 +29,13 @@ public final class Main {
 			
 			game.runLoop();
 			
+			//fragen ob nochmals gespielt werden soll?
+			String answer = ConsoleHelper.askQuestion("Mšchten Sie nocheinmal spielen? (Ja/Nein)", "j", "n");
+			
+			if(answer.equals("n"))
+			{
+				shouldExit = true;
+			}
 		}
 	}
 }
