@@ -3,37 +3,19 @@
  */
 import java.util.Timer;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Game.
+ * @author Maurus KŸhne
+ * The Game class. Contains the game logic and manages the board, highscores and players
  */
 public class Game {
-	
-	/** The _board. */
 	Board _board;
-	
-	/** The elapsed seconds. */
 	int elapsedSeconds;
-	
-	/** The _schwierigkeitsgrad. */
 	int _schwierigkeitsgrad;
-	
-	/** The _player1. */
 	Player _player1;
-	
-	/** The _player2. */
 	Player _player2;
-	
-	/** The _active player. */
 	Player _activePlayer;
-	
-	/** The _timer. */
 	Timer _timer;
-	
-	/** The _update time task. */
 	UpdateTimeTimerTask _updateTimeTask;
-	
-	/** The _highscore. */
 	Highscore _highscore;
 	
 	/**
@@ -47,7 +29,7 @@ public class Game {
 	}
 
 	/**
-	 * Initialize.
+	 * Initializes a new game
 	 */
 	public void initialize() {
 		String answer = ConsoleHelper.askQuestion("Spielst du [a]lleine oder zu [z]weit?", "a", "z");
@@ -98,9 +80,9 @@ public class Game {
 	}
 	
 	/**
-	 * Ask for player name.
+	 * Ask for the name of a player.
 	 *
-	 * @return the string
+	 * @return the name
 	 */
 	private String askForPlayerName()
 	{
@@ -118,7 +100,7 @@ public class Game {
 	}
 	
 	/**
-	 * Run loop.
+	 * Run loop of the game.
 	 */
 	public void runLoop() {
 		boolean gameFinished = false;
@@ -139,14 +121,16 @@ public class Game {
 			{
 				location = ConsoleHelper.askQuestion("WŠhle ein Feld, welches du aufdecken oder markieren mšchtest, z.b. A1:");
 				location = location.toUpperCase();
-				if(location.length() == 2 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1)))
+				if((location.length() == 2 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1))) ||
+				   (location.length() == 3 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1))
+						   && Character.isDigit(location.charAt(2))))
 					gotCorrectLocation = true;
 				else
 					ConsoleHelper.writeLine("Die Eingabe ist keine gŸltige Position!");
 			}
 			
 			int xCoord = location.charAt(0) - 64;
-			int yCoord = location.charAt(1) - 48;
+			int yCoord = Integer.parseInt(location.substring(1));
 			
 			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "m", "a");
 			
@@ -154,8 +138,8 @@ public class Game {
 				_board.markieren(xCoord, yCoord);
 			else
 			{
-				boolean foundBomb = !_board.aufdecken(xCoord, yCoord);
-				if(foundBomb)
+				boolean foundMine = !_board.aufdecken(xCoord, yCoord);
+				if(foundMine)
 				{
 					if(!getIsMultiplayer())
 					{
@@ -169,15 +153,15 @@ public class Game {
 					}
 					else
 					{
-						_activePlayer.setFoundBombs(_activePlayer.getFoundBombs() + 1);
-						//ConsoleHelper.writeLine("Auf dem Feld war eine Mine! Du hast schon " + _activePlayer.getFoundBombs() + " Minen gefunden");
+						_activePlayer.setFoundMines(_activePlayer.getFoundMines() + 1);
+						//ConsoleHelper.writeLine("Auf dem Feld war eine Mine! Du hast schon " + _activePlayer.getFoundMines() + " Minen gefunden");
 					}
 				}
 			}
 			
 			if(getIsMultiplayer())
 			{
-				if(_activePlayer.getFoundBombs() > (_board.getAnzahlMinen() / 2.0) + 1)
+				if(_activePlayer.getFoundMines() > (_board.getAnzahlMinen() / 2.0) + 1)
 					gameFinished = true;
 			}
 			else
@@ -233,15 +217,15 @@ public class Game {
 		if(getIsMultiplayer())
 		{
 			Player winner;
-			if(_player1.getFoundBombs() > _player2.getFoundBombs())
+			if(_player1.getFoundMines() > _player2.getFoundMines())
 				winner = _player1;
 			else
 				winner = _player2;
 			
-			ConsoleHelper.writeLine("Spieler " + winner.getNickname() + " gewinnt mit " + winner.getFoundBombs() + " Punkten.");
+			ConsoleHelper.writeLine("Spieler " + winner.getNickname() + " gewinnt mit " + winner.getFoundMines() + " Punkten.");
 
-			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundBombs());
-			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundBombs());
+			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
+			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
 		}
 	}
 	
@@ -251,20 +235,21 @@ public class Game {
 	private void printPlayerStats()
 	{
 		ConsoleHelper.writeLine(_activePlayer.getNickname() + " ist am Zug!");
-		ConsoleHelper.writeLine("Du hast noch " + _activePlayer.getLives() + " Leben");
-		ConsoleHelper.writeLine("");
+		if(!getIsMultiplayer())
+			ConsoleHelper.writeLine("Du hast noch " + _activePlayer.getLives() + " Leben");
+		ConsoleHelper.writeLine("Vergangene Zeit in Sekunden: " + elapsedSeconds);
 		
 		if(getIsMultiplayer())
 		{
-			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundBombs());
-			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundBombs());
+			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
+			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
 		}
 	}
 	
 	/**
-	 * Gets the checks if is multiplayer.
+	 * checks if this game is a multiplayer game
 	 *
-	 * @return the checks if is multiplayer
+	 * @return true if this is a multiplayer game
 	 */
 	private boolean getIsMultiplayer()
 	{
@@ -272,7 +257,7 @@ public class Game {
 	}
 
 	/**
-	 * Update time.
+	 * Updates the current time.
 	 */
 	public void updateTime() {
 		elapsedSeconds++;

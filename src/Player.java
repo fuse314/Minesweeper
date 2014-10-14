@@ -1,53 +1,46 @@
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class Player.
+ * @author Maurus KŸhne
+ * The Player class. Data container for all informations needed for a player
  */
 public class Player {
-	
-	/** The _nickname. */
 	private String _nickname;
-	
-	/** The _found bombs. */
-	private int _foundBombs;
-	
-	/** The _lives. */
+	private int _foundMines;
 	private int _lives;
 	
 	/**
 	 * Instantiates a new player.
 	 *
-	 * @param nickname the nickname
+	 * @param nickname the nickname of the player
 	 */
 	public Player(String nickname) 
 	{
 		_nickname = nickname;
-		_foundBombs = 0;
+		_foundMines = 0;
 		_lives = 5; 
 	}
 	
 	/**
-	 * Gets the found bombs.
+	 * Gets the found mines.
 	 *
-	 * @return the found bombs
+	 * @return the found mines
 	 */
-	public int getFoundBombs() {
-		return _foundBombs;
+	public int getFoundMines() {
+		return _foundMines;
 	}
 
 	/**
-	 * Sets the found bombs.
+	 * Sets the found mines.
 	 *
-	 * @param foundBombs the new found bombs
+	 * @param sets the new amount of found mines
 	 */
-	public void setFoundBombs(int foundBombs) {
-		_foundBombs = foundBombs;
+	public void setFoundMines(int foundMines) {
+		_foundMines = foundMines;
 	}
 
 	/**
 	 * Sets the lives.
 	 *
-	 * @param lives the new lives
+	 * @param lives the new amount of lives
 	 */
 	public void setLives(int lives) {
 		_lives = lives;
