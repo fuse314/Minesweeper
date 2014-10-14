@@ -1,14 +1,15 @@
 /**
- * The Enum FieldZustand.
+ * @author Gottfried Mayer
+ * The Enum FieldZustand. Represents the possible field states a field can have
  */
 public enum FieldZustand {
 	
-	/** The Verdeckt. */
+	/** The field is covered. */
 	Verdeckt,
 	
-	/** The Markiert. */
+	/** The field is marked. */
 	Markiert,
 	
-	/** The Offen. */
+	/** The field is uncovered. */
 	Offen
 }

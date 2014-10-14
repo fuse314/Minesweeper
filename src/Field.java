@@ -1,15 +1,16 @@
 /**
- * The Class Field.
+ * @author Gottfried Mayer
+ * Field class - one field on the game board.
  */
 public class Field {
 	
-	/** The _proximity. */
+	/** number of mines in fields next to this */
 	private int _proximity;
 	
 	/**
 	 * Gets the proximity.
 	 *
-	 * @return the proximity
+	 * @return number of mines in fields next to this
 	 */
 	public int getProximity() {
 		return this._proximity;
@@ -18,40 +19,40 @@ public class Field {
 	/**
 	 * Sets the proximity.
 	 *
-	 * @param proximity the new proximity
+	 * @param new proximity
 	 */
 	public void setProximity(int proximity) {
 		this._proximity = proximity;
 	}
 	
-	/** The _zustand. */
+	/** The state (FieldZustand) of the field (see enum). */
 	private FieldZustand _zustand = FieldZustand.Verdeckt;
 	
 	/**
-	 * Gets the zustand.
+	 * Gets the state.
 	 *
-	 * @return the zustand
+	 * @return the state
 	 */
 	public FieldZustand getZustand() {
 		return this._zustand;
 	}
 	
 	/**
-	 * Sets the zustand.
+	 * Sets the state.
 	 *
-	 * @param _zustand the new zustand
+	 * @param new field state
 	 */
 	public void setZustand(FieldZustand _zustand) {
 		this._zustand = _zustand;
 	}
 
-	/** The _mine. */
+	/** Is a Mine in this field? */
 	private boolean _mine;
 	
 	/**
-	 * Checks if is t mine.
+	 * Checks if a mine is in this field.
 	 *
-	 * @return true, if is t mine
+	 * @return true, if a mine is present
 	 */
 	public boolean istMine() {
 		return _mine;
@@ -60,16 +61,16 @@ public class Field {
 	/**
 	 * Sets the mine.
 	 *
-	 * @param _mine the new mine
+	 * @param to mine or not to mine...
 	 */
 	public void setMine(boolean _mine) {
 		this._mine = _mine;
 	}
 	
 	/**
-	 * Checks if is t aufgedeckt.
+	 * function to check if a field is uncovered (to check for game end state)
 	 *
-	 * @return true, if is t aufgedeckt
+	 * @return true, if the field is uncovered
 	 */
 	public boolean istAufgedeckt() {
 		if(_zustand != FieldZustand.Offen) {
@@ -82,9 +83,9 @@ public class Field {
 	}
 	
 	/**
-	 * To string.
+	 * string to represent the field state.
 	 *
-	 * @param showMines the show mines
+	 * @param showMines show all the mines (after game over)
 	 * @return the string
 	 */
 	public String toString(boolean showMines) {
