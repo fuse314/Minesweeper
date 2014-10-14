@@ -151,17 +151,10 @@ public class Game {
 					{
 						_activePlayer.setLives(_activePlayer.getLives() - 1);
 						if(!(_activePlayer.getLives() > 0))
-							//ConsoleHelper.writeLine("Auf dem Feld war eine Mine! Du hast noch " + _activePlayer.getLives() + " Leben!");
-						//else
-						{
 							gameFinished = true;
-						}
 					}
 					else
-					{
 						_activePlayer.setFoundMines(_activePlayer.getFoundMines() + 1);
-						//ConsoleHelper.writeLine("Auf dem Feld war eine Mine! Du hast schon " + _activePlayer.getFoundMines() + " Minen gefunden");
-					}
 				}
 			}
 			

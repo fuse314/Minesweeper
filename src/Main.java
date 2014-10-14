@@ -23,7 +23,7 @@ public final class Main {
 			game.runLoop();
 			
 			//fragen ob nochmals gespielt werden soll?
-			String answer = ConsoleHelper.askQuestion("Mšchten Sie nocheinmal spielen? (Ja/Nein)", "j", "n");
+			String answer = ConsoleHelper.askQuestion("Mšchten Sie nocheinmal spielen? ([J]a/[N]ein)", "j", "n");
 			
 			if(answer.equals("n"))
 			{
