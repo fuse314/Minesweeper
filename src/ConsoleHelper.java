@@ -91,4 +91,5 @@ public final class ConsoleHelper {
 		else
 			Console.getInstance().writeAtPosition(xCoord, 2, "gef. Minen: " + foundMines);
 	}
+
 }

@@ -100,6 +100,23 @@ public class Board {
 		return this._anzahlMinen;
 	}
 	
+	/**
+	 * Gets the vertical field distance
+	 *
+	 * @return the distance between two neighbouring fields in the board (for drawing)
+	 */
+	public int getVerticalFieldDistance() {
+		return 1;
+	}
+	
+	/**
+	 * Gets the horizontal field distance
+	 *
+	 * @return the distance between two neighbouring fields in the board (for drawing)
+	 */
+	public int getHorizontalFieldDistance() {
+		return 4;
+	}
 
 	/** The fields of the board. */
 	private Field[][] _fields;
@@ -172,6 +189,7 @@ public class Board {
 	 * @param showMines to show all the mines (after game over)
 	 */
 	public void zeichnen(boolean showMines) {
+		
 		String _line;
 		if(_size < 10) {
 			_line = " ";

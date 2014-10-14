@@ -3,6 +3,9 @@
  */
 import java.util.Timer;
 
+import com.googlecode.lanterna.gui.GUIScreen.Position;
+import com.googlecode.lanterna.terminal.TerminalPosition;
+
 /**
  * @author Maurus Kühne
  * The Game class. Contains the game logic and manages the board, highscores and players
@@ -117,10 +120,13 @@ public class Game {
 				ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
 			}
 			
+			ConsoleHelper.writeLine("");
+			
 			_board.zeichnen(false);
 			
 			ConsoleHelper.writeLine("");
 			
+			/*
 			boolean gotCorrectLocation = false;
 			String location = "";
 			while(!gotCorrectLocation)
@@ -134,9 +140,16 @@ public class Game {
 				else
 					ConsoleHelper.writeLine("Die Eingabe ist keine gültige Position!");
 			}
+			*/
 			
-			int xCoord = location.charAt(0) - 64;
-			int yCoord = Integer.parseInt(location.substring(1));
+			int startingRow = getIsMultiplayer() ? 4 : 2;
+			int startingCol = 4;
+			int numberOfElements = _board.getSize();
+			TerminalPosition pos = Console.getInstance().getSelectedPosition(startingRow, startingCol, numberOfElements, 
+					_board.getHorizontalFieldDistance(), _board.getVerticalFieldDistance());
+			
+			int xCoord = pos.getColumn() - startingCol + 1;
+			int yCoord = pos.getRow() - startingRow + 1;
 			
 			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "m", "a");
 			
