@@ -1,14 +1,13 @@
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class Main.
+ * @author Maurus KŸhne
+ * The main class, contains the main entry point/main method.
  */
 public final class Main {
 	
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args console arguments
 	 */
 	public static void main(String[] args)
 	{

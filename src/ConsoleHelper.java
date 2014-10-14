@@ -3,12 +3,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * The Class ConsoleHelper.
+ * @author Maurus Kühne
+ * ConsoleHelper, stellt div. Funktionen für den einfacheren Zugriff auf die Konsole bereit
  */
 public final class ConsoleHelper {
 	
 	/**
-	 * Clear console.
+	 * Clears the console.
 	 */
 	public static void clearConsole()
 	{
@@ -19,9 +20,9 @@ public final class ConsoleHelper {
 	}
 	
 	/**
-	 * Write line.
+	 * Writes a single line.
 	 *
-	 * @param text the text
+	 * @param text text to display
 	 */
 	public static void writeLine(String text)
 	{
@@ -29,11 +30,11 @@ public final class ConsoleHelper {
 	}
 	
 	/**
-	 * Ask question.
+	 * Asks a question.
 	 *
 	 * @param question the question
 	 * @param possibleAnswers the possible answers
-	 * @return the string
+	 * @return the answer
 	 */
 	public static String askQuestion(String question, String... possibleAnswers)
 	{

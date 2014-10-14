@@ -1,10 +1,13 @@
+import java.io.*;
 // TODO: Auto-generated Javadoc
 /**
  * The Class HighscoreEntry.
  */
-public class HighscoreEntry 
+public class HighscoreEntry implements Serializable
 {
 
+	private static final long serialVersionUID = 2L;
+	
 	/** The _date time. */
 	private int _dateTime;
 	
