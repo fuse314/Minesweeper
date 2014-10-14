@@ -1,2 +1,2 @@
 Highscore*.dat
-bin/Game.class
+bin/*.class

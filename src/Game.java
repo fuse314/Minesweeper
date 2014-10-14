@@ -202,24 +202,20 @@ public class Game {
 		
 		if(!getIsMultiplayer())
 		{
+			ConsoleHelper.clearConsole();
+			GameOverAnimation anim;
 			if(_player1.getLives() <= 0)
 			{
-				ConsoleHelper.clearConsole();
-				
-				GameOverAnimation anim = new GameOverAnimation(30,100);
-				anim.play();
-				ConsoleHelper.clearConsole();
-				
-				ConsoleHelper.writeLine(" _____ ____  _      _____   ____  _     _____ ____"); 
-				ConsoleHelper.writeLine("/  __//  _ \\/ \\__/|/  __/  /  _ \\/ \\ |\\/  __//  __\\");
-				ConsoleHelper.writeLine("| |  _| / \\|| |\\/|||  \\    | / \\|| | //|  \\  |  \\/|");
-				ConsoleHelper.writeLine("| |_//| |-||| |  |||  /_   | \\_/|| \\// |  /_ |    /");
-				ConsoleHelper.writeLine("\\____\\\\_/ \\|\\_/  \\|\\____\\  \\____/\\__/  \\____\\\\_/\\_\\");
-				ConsoleHelper.writeLine("");
+				anim = new GameOverAnimation(30,100,true); // animation - game over
 			}
 			else
+			{
 				_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
-			
+				
+				anim = new GameOverAnimation(30,100,false); // animation - you win!
+			}
+			anim.play();
+			ConsoleHelper.clearConsole();
 			_highscore.zeichnen();
 		}
 		
