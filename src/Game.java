@@ -204,8 +204,8 @@ public class Game {
 				ConsoleHelper.writeLine("| |_//| |-||| |  |||  /_   | \\_/|| \\// |  /_ |    /");
 				ConsoleHelper.writeLine("\\____\\\\_/ \\|\\_/  \\|\\____\\  \\____/\\__/  \\____\\\\_/\\_\\");
 			}
-			
-			_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
+			else
+				_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
 			
 			HighscoreEntry[] entries = _highscore.getHighscores();
 			
