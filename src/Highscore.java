@@ -110,7 +110,7 @@
 		public void zeichnen() {
 			HighscoreEntry[] entries = this.getHighscores();
 			
-		  ConsoleHelper.writeLine("         _       _                            ");
+		  ConsoleHelper.writeLine("        _       _                            ");
 	      ConsoleHelper.writeLine("  /\\  /(_) __ _| |__  ___  ___ ___  _ __ ___"); 
 	      ConsoleHelper.writeLine(" / /_/ / |/ _` | '_ \\/ __|/ __/ _ \\| '__/ _ \\");
 	      ConsoleHelper.writeLine("/ __  /| | (_| | | | \\__ \\ (_| (_) | | |  __/");

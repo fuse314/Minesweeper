@@ -150,7 +150,7 @@ public class Game {
 					if(!getIsMultiplayer())
 					{
 						_activePlayer.setLives(_activePlayer.getLives() - 1);
-						if(!(_activePlayer.getLives() >= 0))
+						if((_activePlayer.getLives() <= 0))
 							gameFinished = true;
 					}
 					else
@@ -203,10 +203,12 @@ public class Game {
 			
 			_highscore.zeichnen();
 		}
+		
 		ConsoleHelper.writeLine("");
 		ConsoleHelper.writeLine("Auflšsung:");
 		_board.zeichnen(true);
 		ConsoleHelper.writeLine("");
+		
 		if(getIsMultiplayer())
 		{
 			Player winner;
