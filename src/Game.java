@@ -126,29 +126,14 @@ public class Game {
 			
 			ConsoleHelper.writeLine("");
 			
-			/*
-			boolean gotCorrectLocation = false;
-			String location = "";
-			while(!gotCorrectLocation)
-			{
-				location = ConsoleHelper.askQuestion("Wähle ein Feld, welches du aufdecken oder markieren möchtest, z.b. A1:");
-				location = location.toUpperCase();
-				if((location.length() == 2 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1))) ||
-				   (location.length() == 3 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1))
-						   && Character.isDigit(location.charAt(2))))
-					gotCorrectLocation = true;
-				else
-					ConsoleHelper.writeLine("Die Eingabe ist keine gültige Position!");
-			}
-			*/
 			
 			int startingRow = getIsMultiplayer() ? 4 : 2;
-			int startingCol = 4;
+			int startingCol = _board.getSize() == 10 ? 5 : 4;
 			int numberOfElements = _board.getSize();
 			TerminalPosition pos = Console.getInstance().getSelectedPosition(startingRow, startingCol, numberOfElements, 
 					_board.getHorizontalFieldDistance(), _board.getVerticalFieldDistance());
 			
-			int xCoord = pos.getColumn() - startingCol + 1;
+			int xCoord = ((pos.getColumn() - startingCol) / _board.getHorizontalFieldDistance()) + 1;
 			int yCoord = pos.getRow() - startingRow + 1;
 			
 			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "m", "a");
