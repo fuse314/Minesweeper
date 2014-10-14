@@ -126,21 +126,6 @@ public class Game {
 			
 			ConsoleHelper.writeLine("");
 			
-			/*
-			boolean gotCorrectLocation = false;
-			String location = "";
-			while(!gotCorrectLocation)
-			{
-				location = ConsoleHelper.askQuestion("Wähle ein Feld, welches du aufdecken oder markieren möchtest, z.b. A1:");
-				location = location.toUpperCase();
-				if((location.length() == 2 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1))) ||
-				   (location.length() == 3 && Character.isLetter(location.charAt(0)) && Character.isDigit(location.charAt(1))
-						   && Character.isDigit(location.charAt(2))))
-					gotCorrectLocation = true;
-				else
-					ConsoleHelper.writeLine("Die Eingabe ist keine gültige Position!");
-			}
-			*/
 			
 			int startingRow = getIsMultiplayer() ? 4 : 2;
 			int startingCol = 4;
