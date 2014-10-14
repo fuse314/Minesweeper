@@ -191,13 +191,12 @@ public class Game {
 	 */
 	private void showGameOverStats() {
 		//Spiel ist fertig, entweder gewonnen oder alle leben verloren
+		ConsoleHelper.clearConsole();
 		
 		if(!getIsMultiplayer())
 		{
 			if(_player1.getLives() == 0)
 			{
-				ConsoleHelper.clearConsole();
-				
 				ConsoleHelper.writeLine(" _____ ____  _      _____   ____  _     _____ ____"); 
 				ConsoleHelper.writeLine("/  __//  _ \\/ \\__/|/  __/  /  _ \\/ \\ |\\/  __//  __\\");
 				ConsoleHelper.writeLine("| |  _| / \\|| |\\/|||  \\    | / \\|| | //|  \\  |  \\/|");
@@ -231,6 +230,8 @@ public class Game {
 			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
 			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
 		}
+		
+		_timer.cancel();
 	}
 	
 	

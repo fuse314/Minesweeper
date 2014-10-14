@@ -15,6 +15,7 @@ public final class Main {
 		
 		while(!shouldExit) 
 		{
+			ConsoleHelper.clearConsole();
 			Game game = new Game();
 			
 			game.initialize();
