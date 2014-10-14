@@ -1,6 +1,14 @@
-
+/**
+ * The Class Board.
+ */
 public class Board {
 	
+	/**
+	 * Instantiates a new board.
+	 *
+	 * @param size the size
+	 * @param difficulty the difficulty
+	 */
 	public Board(int size, int difficulty)
 	{
 		setSize(size);
@@ -34,29 +42,69 @@ public class Board {
 		}
 	}
 	
+	/** The _size. */
 	private int _size;
+	
+	/**
+	 * Gets the size.
+	 *
+	 * @return the size
+	 */
 	public int getSize() {
 		return this._size;
 	}
+	
+	/**
+	 * Sets the size.
+	 *
+	 * @param size the new size
+	 */
 	private void setSize(int size) {
 		this._size = Helper.constrain(size,5,10);
 	}
 
+	/** The _difficulty. */
 	private int _difficulty;
+	
+	/**
+	 * Gets the difficulty.
+	 *
+	 * @return the difficulty
+	 */
 	public int getDifficulty() {
 		return this._difficulty;
 	}
+	
+	/**
+	 * Sets the difficulty.
+	 *
+	 * @param difficulty the new difficulty
+	 */
 	private void setDifficulty(int difficulty) {
 		this._difficulty = Helper.constrain(difficulty,1,99);
 	}
+	
+	/** The _anzahl minen. */
 	private int _anzahlMinen;
+	
+	/**
+	 * Gets the anzahl minen.
+	 *
+	 * @return the anzahl minen
+	 */
 	public int getAnzahlMinen() {
 		return this._anzahlMinen;
 	}
 	
 
+	/** The _fields. */
 	private Field[][] _fields;
 	
+	/**
+	 * Alle felder aufgedeckt.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean alleFelderAufgedeckt() {
 		for(int _x=0;_x<_size;_x++) {
 			for(int _y=0;_y<_size;_y++) {
@@ -67,6 +115,12 @@ public class Board {
 		return true;
 	}
 
+	/**
+	 * Markieren.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void markieren(int x, int y) {
 		x = Helper.constrain(x,1,_size);
 		y = Helper.constrain(y,1,_size);
@@ -81,6 +135,13 @@ public class Board {
 	}
 	
 	// returns true if successful, false if GAME OVER
+	/**
+	 * Aufdecken.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
+	 */
 	public boolean aufdecken(int x, int y) {
 		x = Helper.constrain(x,1,_size);
 		y = Helper.constrain(y, 1, _size);
@@ -102,6 +163,11 @@ public class Board {
 		return true;
 	}
 	
+	/**
+	 * Zeichnen.
+	 *
+	 * @param showMines the show mines
+	 */
 	public void zeichnen(boolean showMines) {
 		String _line;
 		if(_size < 10) {
@@ -129,10 +195,25 @@ public class Board {
 	}
 	
 	
+	/**
+	 * Calc proximity.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return the int
+	 */
 	private int calcProximity(int x, int y) {
 		return calcProximity(x,y,false);
 	}
 	
+	/**
+	 * Calc proximity.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param stop the stop
+	 * @return the int
+	 */
 	private int calcProximity(int x, int y, boolean stop) {
 		if(x < 1 || x > _size || y < 1 || y > _size)
 			return 0;

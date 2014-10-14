@@ -2,8 +2,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
+/**
+ * The Class ConsoleHelper.
+ */
 public final class ConsoleHelper {
+	
+	/**
+	 * Clear console.
+	 */
 	public static void clearConsole()
 	{
 		for(int i = 0; i < 50; i++)
@@ -12,11 +18,23 @@ public final class ConsoleHelper {
 		}
 	}
 	
+	/**
+	 * Write line.
+	 *
+	 * @param text the text
+	 */
 	public static void writeLine(String text)
 	{
 		System.out.println(text);
 	}
 	
+	/**
+	 * Ask question.
+	 *
+	 * @param question the question
+	 * @param possibleAnswers the possible answers
+	 * @return the string
+	 */
 	public static String askQuestion(String question, String... possibleAnswers)
 	{
 		String retVal = "";

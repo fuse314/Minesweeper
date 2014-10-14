@@ -1,11 +1,27 @@
+/*
+ * 
+ */
 	import java.io.*;
 
+	// TODO: Auto-generated Javadoc
+/**
+	 * The Class Highscore.
+	 */
 	public class Highscore implements Serializable
 	{
+		
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
+		
+		/** The _level. */
 		private int _level;
 		
 		//Konstruktor
+		/**
+		 * Instantiates a new highscore.
+		 *
+		 * @param _level the _level
+		 */
 		public Highscore(int _level)
 		{
 			this._level = _level;
@@ -13,11 +29,21 @@
 		}
 		
 		//Die setters und getters
+		/**
+		 * Sets the level.
+		 *
+		 * @param _level the new level
+		 */
 		public void setLevel(int _level) 
 		{
 			this._level = _level;
 		}
 
+		/**
+		 * Gets the level.
+		 *
+		 * @return the level
+		 */
 		public int getLevel() 
 		{
 			return _level;
@@ -25,6 +51,9 @@
 
 		
 		//Wird aufgerufen wenn das File leer ist um exceptions vorzubeugen
+		/**
+		 * Initialize file.
+		 */
 		private static void initializeFile()
 		{
 			HighscoreEntry[] h={new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),
@@ -42,6 +71,11 @@
 		}
 		
 		//Liest die .dat Datei und gib die Konstante zurück
+		/**
+		 * Gets the highscores.
+		 *
+		 * @return the highscores
+		 */
 		public HighscoreEntry[] getHighscores()
 		{
 			if (!new File("Highscores"+_level+".dat").exists())
@@ -58,6 +92,12 @@
 		}
 		
 		//Adds a new Highscore to the .dat file and maintains the proper order
+		/**
+		 * Adds the highscore.
+		 *
+		 * @param h the h
+		 * @return true, if successful
+		 */
 		public boolean addHighscore(HighscoreEntry h)
 		{
 			boolean _success = false;

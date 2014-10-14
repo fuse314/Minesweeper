@@ -1,18 +1,44 @@
+/*
+ * 
+ */
 import java.util.Timer;
 
-
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Game.
+ */
 public class Game {
 	
+	/** The _board. */
 	Board _board;
+	
+	/** The elapsed seconds. */
 	int elapsedSeconds;
+	
+	/** The _schwierigkeitsgrad. */
 	int _schwierigkeitsgrad;
+	
+	/** The _player1. */
 	Player _player1;
+	
+	/** The _player2. */
 	Player _player2;
+	
+	/** The _active player. */
 	Player _activePlayer;
+	
+	/** The _timer. */
 	Timer _timer;
+	
+	/** The _update time task. */
 	UpdateTimeTimerTask _updateTimeTask;
+	
+	/** The _highscore. */
 	Highscore _highscore;
 	
+	/**
+	 * Instantiates a new game.
+	 */
 	public Game()
 	{
 		_timer = new Timer(true);
@@ -20,6 +46,9 @@ public class Game {
 		elapsedSeconds = 0;
 	}
 
+	/**
+	 * Initialize.
+	 */
 	public void initialize() {
 		String answer = ConsoleHelper.askQuestion("Spielst du [a]lleine oder zu [z]weit?", "a", "z");
 		
@@ -68,6 +97,11 @@ public class Game {
 		_timer.scheduleAtFixedRate(_updateTimeTask,1000, 1000);
 	}
 	
+	/**
+	 * Ask for player name.
+	 *
+	 * @return the string
+	 */
 	private String askForPlayerName()
 	{
 		boolean foundName = false;
@@ -83,6 +117,9 @@ public class Game {
 		return name;
 	}
 	
+	/**
+	 * Run loop.
+	 */
 	public void runLoop() {
 		boolean gameFinished = false;
 		
@@ -157,7 +194,11 @@ public class Game {
 		
 		showGameOverStats();
 	}
-
+	
+	
+	/**
+	 * Show game over stats.
+	 */
 	private void showGameOverStats() {
 		//Spiel ist fertig, entweder gewonnen oder alle leben verloren
 		
@@ -204,6 +245,9 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Prints the player stats.
+	 */
 	private void printPlayerStats()
 	{
 		ConsoleHelper.writeLine(_activePlayer.getNickname() + " ist am Zug!");
@@ -217,11 +261,19 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Gets the checks if is multiplayer.
+	 *
+	 * @return the checks if is multiplayer
+	 */
 	private boolean getIsMultiplayer()
 	{
 		return _player2 != null;
 	}
 
+	/**
+	 * Update time.
+	 */
 	public void updateTime() {
 		elapsedSeconds++;
 	}
