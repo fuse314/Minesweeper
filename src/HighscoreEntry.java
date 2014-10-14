@@ -1,30 +1,28 @@
 import java.io.*;
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class HighscoreEntry.
+ * @author Elias
+ * The Class HighscoreEntry. Represents a single entry in the highscore list
  */
+
 public class HighscoreEntry implements Serializable
 {
-
 	private static final long serialVersionUID = 2L;
 	
-	/** The _date time. */
 	private int _dateTime;
 	
-	/** The _name. */
 	private String _name;
 	
-	//Konstruktor
 	/**
 	 * Instantiates a new highscore entry.
 	 *
-	 * @param _datetime the _datetime
-	 * @param _name the _name
+	 * @param _datetime the score
+	 * @param _name the nickname of the player
 	 */
-	public HighscoreEntry(int _dateTime, String _name)
+	public HighscoreEntry(int dateTime, String name)
 	{
-		setDateTime(_dateTime);
-		setName(_name);
+		setDateTime(dateTime);
+		setName(name);
 	}
 	
 	/**
@@ -48,13 +46,13 @@ public class HighscoreEntry implements Serializable
 	}
 	
 	/**
-	 * Sets the date time.
+	 * Sets the score.
 	 *
-	 * @param _dateTime the new date time
+	 * @param _dateTime the new score
 	 */
-	public void setDateTime(int _dateTime)
+	public void setDateTime(int dateTime)
 	{
-		this._dateTime = _dateTime;
+		this._dateTime = dateTime;
 	}
 	
 	/**
@@ -67,13 +65,11 @@ public class HighscoreEntry implements Serializable
 		return this._dateTime;
 	}
 	
-	//Statische Methode
-	//Entscheided ob dieser Highscore gršsser/kleiner/gleich ist
 	/**
-	 * Compare to.
+	 * Entscheided ob dieser Highscore gršsser/kleiner/gleich ist
 	 *
-	 * @param h the h
-	 * @return the int
+	 * @param h the other highscore entry
+	 * @return -1 / 0 / 1, depending on which entry is higher/lower than the other
 	 */
 	public int compareTo(HighscoreEntry h)
 	{

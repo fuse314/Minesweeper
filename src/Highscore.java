@@ -1,39 +1,32 @@
-/*
- *
- */
-	import java.io.*;
+import java.io.*;
 
-	// TODO: Auto-generated Javadoc
-/**
-	 * The Class Highscore.
+	/**
+	 * @author: Elias 
+	 * The Class Highscore. Maintains the highscore order and saves it to a file
 	 */
 	public class Highscore implements Serializable
 	{
-
-		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
 
-		/** The _level. */
 		private int _level;
 		private int _size;
 
-		//Konstruktor
 		/**
-		 * Instantiates a new highscore.
+		 * Instantiates a new highscore table.
 		 *
-		 * @param _level the _level
+		 * @param level the difficulty level
+		 * @param size the size of the board
 		 */
-		public Highscore(int _level, int _size)
+		public Highscore(int level, int size)
 		{
-			this._level = _level;
-			this._size = _size;
+			this._level = level;
+			this._size = size;
 			getHighscores();
 
 		}
 
-		//Wird aufgerufen wenn das File leer ist um exceptions vorzubeugen
 		/**
-		 * Initialize file.
+		 * Initializes the highscore file.
 		 */
 		private void initializeFile()
 		{
@@ -51,11 +44,10 @@
 			catch (IOException e) {e.printStackTrace();}
 		}
 
-		//Liest die .dat Datei und gib die Konstante zur�ck
 		/**
-		 * Gets the highscores.
+		 * Gets the highscore entries.
 		 *
-		 * @return the highscores
+		 * @return the highscore entries
 		 */
 		public HighscoreEntry[] getHighscores()
 		{
@@ -72,11 +64,10 @@
 			return null;
 		}
 
-		//Adds a new Highscore to the .dat file and maintains the proper order
 		/**
-		 * Adds the highscore.
+		 * tries to add a new highscore entry
 		 *
-		 * @param h the h
+		 * @param h the highscore entry to add
 		 * @return true, if successful
 		 */
 		public boolean addHighscore(HighscoreEntry h)
@@ -107,6 +98,9 @@
 			return _success;
 		}
 
+		/**
+		 * draws the highscores into the console
+		 */
 		public void zeichnen() {
 			HighscoreEntry[] entries = this.getHighscores();
 
