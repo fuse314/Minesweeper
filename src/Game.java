@@ -108,7 +108,11 @@ public class Game {
 		{
 			ConsoleHelper.clearConsole();
 				
-			printPlayerStats();
+			if(getIsMultiplayer())
+			{
+				ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
+				ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
+			}
 			
 			_board.zeichnen(false);
 			
@@ -228,22 +232,6 @@ public class Game {
 		}
 	}
 	
-	/**
-	 * Prints the player stats.
-	 */
-	private void printPlayerStats()
-	{
-		ConsoleHelper.writeLine(_activePlayer.getNickname() + " ist am Zug!");
-		if(!getIsMultiplayer())
-			ConsoleHelper.writeLine("Du hast noch " + _activePlayer.getLives() + " Leben");
-		ConsoleHelper.writeLine("Vergangene Zeit in Sekunden: " + elapsedSeconds);
-		
-		if(getIsMultiplayer())
-		{
-			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
-			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
-		}
-	}
 	
 	/**
 	 * checks if this game is a multiplayer game
@@ -260,6 +248,8 @@ public class Game {
 	 */
 	public void updateTime() {
 		elapsedSeconds++;
+		ConsoleHelper.updateStatusbar(elapsedSeconds,_activePlayer.getNickname(), _activePlayer.getLives(), 
+				getIsMultiplayer(), _activePlayer.getFoundMines());
 	}
 
 }
