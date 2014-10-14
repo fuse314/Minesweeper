@@ -21,7 +21,7 @@ public class HighscoreEntry implements Serializable
 	 * @param _datetime the _datetime
 	 * @param _name the _name
 	 */
-	public HighscoreEntry(int _datetime, String _name)
+	public HighscoreEntry(int _dateTime, String _name)
 	{
 		setDateTime(_dateTime);
 		setName(_name);
