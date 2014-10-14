@@ -1,11 +1,3 @@
-import java.nio.charset.Charset;
-
-import com.googlecode.lanterna.TerminalFacade;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.ScreenCharacterStyle;
-import com.googlecode.lanterna.terminal.Terminal;
-
-
 /**
  * @author Maurus KŸhne
  * The main class, contains the main entry point/main method.

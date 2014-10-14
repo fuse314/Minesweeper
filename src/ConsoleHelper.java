@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 /**
  * @author Maurus Kühne
  * ConsoleHelper, stellt div. Funktionen für den einfacheren Zugriff auf die Konsole bereit

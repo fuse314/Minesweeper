@@ -107,6 +107,9 @@ public class Game {
 		while(!gameFinished)
 		{
 			ConsoleHelper.clearConsole();
+			
+			ConsoleHelper.updateStatusbar(elapsedSeconds,_activePlayer.getNickname(), _activePlayer.getLives(), 
+					getIsMultiplayer(), _activePlayer.getFoundMines());
 				
 			if(getIsMultiplayer())
 			{
@@ -203,8 +206,6 @@ public class Game {
 			}
 			
 			_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
-				
-			ConsoleHelper.clearConsole();
 			
 			HighscoreEntry[] entries = _highscore.getHighscores();
 			

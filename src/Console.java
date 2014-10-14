@@ -1,6 +1,4 @@
 import java.nio.charset.Charset;
-import java.util.Scanner;
-
 import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.screen.Screen;
@@ -18,7 +16,6 @@ public class Console {
 	    Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
 	    _screen = TerminalFacade.createScreen(terminal);
 	    _screen.startScreen();
-	    //_screen.putString(10, 5, "Hello Lanterna", Terminal.Color.RED, Terminal.Color.GREEN, ScreenCharacterStyle.Blinking);
 	    
 	    _screen.refresh();
 	}
@@ -34,6 +31,8 @@ public class Console {
 	{
 		writeAtPosition(0, _currentLine, message);
 		_currentLine++;
+		_screen.setCursorPosition(0, _currentLine);
+		_screen.refresh();
 	}
 	
 	public void writeAtPosition(int xCoord, int yCoord, String message)
@@ -50,7 +49,6 @@ public class Console {
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Key k = _screen.readInput();
