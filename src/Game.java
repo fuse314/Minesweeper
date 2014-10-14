@@ -157,15 +157,17 @@ public class Game {
 					}
 				}
 			}
-			
-			if(getIsMultiplayer())
+			if(gameFinished == false) 
 			{
-				if(_activePlayer.getFoundMines() > (_board.getAnzahlMinen() / 2.0) + 1)
-					gameFinished = true;
-			}
-			else
-			{
-				gameFinished = _board.alleFelderAufgedeckt();
+				if(getIsMultiplayer())
+				{
+					if(_activePlayer.getFoundMines() > (_board.getAnzahlMinen() / 2.0) + 1)
+						gameFinished = true;
+				}
+				else
+				{
+					gameFinished = _board.alleFelderAufgedeckt();
+				}
 			}
 			
 			if(getIsMultiplayer())
