@@ -15,6 +15,7 @@
 		
 		/** The _level. */
 		private int _level;
+		private int _size;
 		
 		//Konstruktor
 		/**
@@ -22,39 +23,19 @@
 		 *
 		 * @param _level the _level
 		 */
-		public Highscore(int _level)
+		public Highscore(int _level, int _size)
 		{
 			this._level = _level;
+			this._size = _size;
 			getHighscores();
+			
 		}
-		
-		//Die setters und getters
-		/**
-		 * Sets the level.
-		 *
-		 * @param _level the new level
-		 */
-		public void setLevel(int _level) 
-		{
-			this._level = _level;
-		}
-
-		/**
-		 * Gets the level.
-		 *
-		 * @return the level
-		 */
-		public int getLevel() 
-		{
-			return _level;
-		}
-
 		
 		//Wird aufgerufen wenn das File leer ist um exceptions vorzubeugen
 		/**
 		 * Initialize file.
 		 */
-		private static void initializeFile()
+		private void initializeFile()
 		{
 			HighscoreEntry[] h={new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),
 					new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),new HighscoreEntry(99999," "),
@@ -63,7 +44,7 @@
 			try 
 			{
 				System.out.println("Hi1");
-				ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream("Highscores.dat"));
+				ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream("Highscores"+"_"+_level+"_"+_size+".dat"));
 				o.writeObject(h);
 				o.close();
 			} catch (FileNotFoundException e) {e.printStackTrace();}
@@ -78,11 +59,11 @@
 		 */
 		public HighscoreEntry[] getHighscores()
 		{
-			if (!new File("Highscores"+_level+".dat").exists())
+			if (!new File("Highscores"+"_"+_level+"_"+_size+".dat").exists())
 				initializeFile();
 			try 
 			{
-				ObjectInputStream o=new ObjectInputStream(new FileInputStream("Highscores"+_level+".dat"));
+				ObjectInputStream o=new ObjectInputStream(new FileInputStream("Highscores"+"_"+_level+"_"+_size+".dat"));
 				HighscoreEntry[] h=(HighscoreEntry[]) o.readObject();
 				o.close();
 				return h;
@@ -103,7 +84,6 @@
 			boolean _success = false;
 			
 			HighscoreEntry[] HighscoresEntry=getHighscores();
-			//HighscoresEntry[HighscoresEntry.length-1]=h;
 			for (int i=0; i<HighscoresEntry.length-1; i++)
 			{
 				if (h.compareTo(HighscoresEntry[i])<0)
@@ -118,7 +98,7 @@
 			}
 			try 
 			{
-				ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream("Highscores"+_level+".dat"));
+				ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream("Highscores"+"_"+_level+"_"+_size+".dat"));
 				o.writeObject(HighscoresEntry);
 				o.close();
 			} catch (FileNotFoundException e) {e.printStackTrace();} 
