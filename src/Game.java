@@ -150,7 +150,7 @@ public class Game {
 					if(!getIsMultiplayer())
 					{
 						_activePlayer.setLives(_activePlayer.getLives() - 1);
-						if(!(_activePlayer.getLives() > 0))
+						if(!(_activePlayer.getLives() >= 0))
 							gameFinished = true;
 					}
 					else
@@ -160,12 +160,13 @@ public class Game {
 			
 			if(getIsMultiplayer())
 			{
-				if(_activePlayer.getFoundMines() > (_board.getAnzahlMinen() / 2.0) + 1)
+				if(_activePlayer.getFoundMines() >= (_board.getAnzahlMinen() / 2) + 1)
 					gameFinished = true;
 			}
 			else
 			{
-				gameFinished = _board.alleFelderAufgedeckt();
+				if(_board.alleFelderAufgedeckt())
+					gameFinished = true;
 			}
 			
 			if(getIsMultiplayer())
@@ -188,7 +189,7 @@ public class Game {
 		
 		if(!getIsMultiplayer())
 		{
-			if(_player1.getLives() == 0)
+			if(_player1.getLives() <= 0)
 			{
 				ConsoleHelper.writeLine(" _____ ____  _      _____   ____  _     _____ ____"); 
 				ConsoleHelper.writeLine("/  __//  _ \\/ \\__/|/  __/  /  _ \\/ \\ |\\/  __//  __\\");
