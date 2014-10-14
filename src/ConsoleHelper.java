@@ -79,7 +79,7 @@ public final class ConsoleHelper {
 		return retVal;
 	}
 
-	public static void updateStatusbar(int elapsedSeconds, String currentPlayerName, int remainingLives, boolean isMultiPlayer, int foundBombs) 
+	public static void updateStatusbar(int elapsedSeconds, String currentPlayerName, int remainingLives, boolean isMultiPlayer, int foundMines) 
 	{
 		String str = "Zeit: " + elapsedSeconds;
 		int consoleWidth = Console.getInstance().getWidth();
@@ -89,6 +89,6 @@ public final class ConsoleHelper {
 		if(!isMultiPlayer)
 			Console.getInstance().writeAtPosition(xCoord, 2, "Leben: " + remainingLives);
 		else
-			Console.getInstance().writeAtPosition(xCoord, 2, "Gef. Bomben: " + foundBombs);
+			Console.getInstance().writeAtPosition(xCoord, 2, "gef. Minen: " + foundMines);
 	}
 }
