@@ -1,26 +1,29 @@
 /**
- * The Class Board.
+ * @author Gottfried Mayer
+ * The game board class.
  */
 public class Board {
 	
 	/**
 	 * Instantiates a new board.
 	 *
-	 * @param size the size
-	 * @param difficulty the difficulty
+	 * @param size the board
+	 * @param difficulty (percentage of mines in fields)
 	 */
 	public Board(int size, int difficulty)
 	{
 		setSize(size);
 		setDifficulty(difficulty);
+		// initialize all the fields
 		_fields = new Field[_size][_size];
 		for(int _i=0;_i<_size;_i++) {
 			for(int _j=0;_j<_size;_j++) {
 				_fields[_i][_j] = new Field();
 			}
 		}
-		
+		// calculate number of mines in field, make sure to have at least 1 mine and one free field
 		this._anzahlMinen = Helper.constrain((int)Math.round(((double)_size * (double)_size / 100.0) * _difficulty),1,(_size * _size)-1);
+		// place mines in random positions, make sure to not place two mines in same field
 		for(int k=0;k<this._anzahlMinen;k++) {
 			boolean _success = false;
 			do {
@@ -35,6 +38,7 @@ public class Board {
 			}
 			while(_success==false);
 		}
+		// calculate proximity of game board
 		for(int i=1;i<=_size;i++) {
 			for(int j=1;j<=_size;j++) {
 				_fields[i-1][j-1].setProximity(calcProximity(i,j));
@@ -42,7 +46,7 @@ public class Board {
 		}
 	}
 	
-	/** The _size. */
+	/** The size. */
 	private int _size;
 	
 	/**
@@ -63,7 +67,7 @@ public class Board {
 		this._size = Helper.constrain(size,5,10);
 	}
 
-	/** The _difficulty. */
+	/** The difficulty. */
 	private int _difficulty;
 	
 	/**
@@ -84,26 +88,26 @@ public class Board {
 		this._difficulty = Helper.constrain(difficulty,1,99);
 	}
 	
-	/** The _anzahl minen. */
+	/** The number of mines on the game board. */
 	private int _anzahlMinen;
 	
 	/**
-	 * Gets the anzahl minen.
+	 * Gets the number of mines.
 	 *
-	 * @return the anzahl minen
+	 * @return the number of mines
 	 */
 	public int getAnzahlMinen() {
 		return this._anzahlMinen;
 	}
 	
 
-	/** The _fields. */
+	/** The fields of the board. */
 	private Field[][] _fields;
 	
 	/**
-	 * Alle felder aufgedeckt.
+	 * are all fields on the board uncovered?
 	 *
-	 * @return true, if successful
+	 * @return true, if all are uncovered (game end)
 	 */
 	public boolean alleFelderAufgedeckt() {
 		for(int _x=0;_x<_size;_x++) {
@@ -116,10 +120,10 @@ public class Board {
 	}
 
 	/**
-	 * Markieren.
+	 * mark the field.
 	 *
-	 * @param x the x
-	 * @param y the y
+	 * @param x (1 to _size)
+	 * @param y (1 to _size)
 	 */
 	public void markieren(int x, int y) {
 		x = Helper.constrain(x,1,_size);
@@ -134,13 +138,12 @@ public class Board {
 		}
 	}
 	
-	// returns true if successful, false if GAME OVER
 	/**
-	 * Aufdecken.
+	 * uncover field.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @return true, if successful
+	 * @param x (1 to _size)
+	 * @param y (1 to _size)
+	 * @return true, if successful, false if there was a mine
 	 */
 	public boolean aufdecken(int x, int y) {
 		x = Helper.constrain(x,1,_size);
@@ -164,9 +167,9 @@ public class Board {
 	}
 	
 	/**
-	 * Zeichnen.
+	 * draw the game board.
 	 *
-	 * @param showMines the show mines
+	 * @param showMines to show all the mines (after game over)
 	 */
 	public void zeichnen(boolean showMines) {
 		String _line;
@@ -196,23 +199,23 @@ public class Board {
 	
 	
 	/**
-	 * Calc proximity.
+	 * Helper function to calc proximity.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @return the int
+	 * @param x (1 to _size)
+	 * @param y (1 to _size)
+	 * @return the number of mines in proximity
 	 */
 	private int calcProximity(int x, int y) {
 		return calcProximity(x,y,false);
 	}
 	
 	/**
-	 * Calc proximity.
+	 * Helper function to calc proximity.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param stop the stop
-	 * @return the int
+	 * @param x (1 to _size)
+	 * @param y (1 to _size)
+	 * @param stop do not call function recursively
+	 * @return the number of mines in proximity
 	 */
 	private int calcProximity(int x, int y, boolean stop) {
 		if(x < 1 || x > _size || y < 1 || y > _size)
