@@ -13,10 +13,7 @@ public final class ConsoleHelper {
 	 */
 	public static void clearConsole()
 	{
-		for(int i = 0; i < 50; i++)
-		{
-			System.out.println("");
-		}
+		Console.getInstance().clearScreen();
 	}
 	
 	/**
@@ -26,7 +23,7 @@ public final class ConsoleHelper {
 	 */
 	public static void writeLine(String text)
 	{
-		System.out.println(text);
+		Console.getInstance().writeLine(text);
 	}
 	
 	/**
@@ -41,8 +38,6 @@ public final class ConsoleHelper {
 		String retVal = "";
 		String answerList = "";
 		boolean gotAnswer = false;
-		//Console c = System.console();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		if(possibleAnswers.length > 0)
 		{
@@ -59,13 +54,9 @@ public final class ConsoleHelper {
 		
 		while(!gotAnswer)
 		{
-			System.out.println(question + " " + answerList);
-			try {
-				retVal = reader.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			writeLine(question + " " + answerList);
+			
+			retVal = Console.getInstance().readLine();
 			
 			if(possibleAnswers.length > 0)
 			{
@@ -78,17 +69,30 @@ public final class ConsoleHelper {
 				}
 				
 				if(!gotAnswer)
-					System.out.println("Die Eingabe entspricht nicht der Antwortliste! Bitte ŸberprŸfe die Eingabe");
+					writeLine("Die Eingabe entspricht nicht der Antwortliste! Bitte ŸberprŸfe die Eingabe");
 			}
 			else
 			{
 				if(retVal.length() > 0)
 					gotAnswer = true;
 				else
-					System.out.println("Es muss eine Eingabe gemacht werden.");
+					writeLine("Es muss eine Eingabe gemacht werden.");
 			}
 		}
 		
 		return retVal;
+	}
+
+	public static void updateStatusbar(int elapsedSeconds, String currentPlayerName, int remainingLives, boolean isMultiPlayer, int foundBombs) 
+	{
+		String str = "Zeit: " + elapsedSeconds;
+		int consoleWidth = Console.getInstance().getWidth();
+		int xCoord = consoleWidth - 15;
+		Console.getInstance().writeAtPosition(xCoord, 0, str);
+		Console.getInstance().writeAtPosition(xCoord, 1, "Spieler: " + currentPlayerName);
+		if(!isMultiPlayer)
+			Console.getInstance().writeAtPosition(xCoord, 2, "Leben: " + remainingLives);
+		else
+			Console.getInstance().writeAtPosition(xCoord, 2, "Gef. Bomben: " + foundBombs);
 	}
 }
