@@ -128,12 +128,12 @@ public class Game {
 			
 			
 			int startingRow = getIsMultiplayer() ? 4 : 2;
-			int startingCol = 4;
+			int startingCol = _board.getSize() == 10 ? 5 : 4;
 			int numberOfElements = _board.getSize();
 			TerminalPosition pos = Console.getInstance().getSelectedPosition(startingRow, startingCol, numberOfElements, 
 					_board.getHorizontalFieldDistance(), _board.getVerticalFieldDistance());
 			
-			int xCoord = pos.getColumn() - startingCol + 1;
+			int xCoord = ((pos.getColumn() - startingCol) / _board.getHorizontalFieldDistance()) + 1;
 			int yCoord = pos.getRow() - startingRow + 1;
 			
 			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "m", "a");
