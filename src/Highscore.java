@@ -36,7 +36,6 @@ import java.io.*;
 					new HighscoreEntry(99999," ")};
 			try
 			{
-				System.out.println("Hi1");
 				ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream("Highscores"+"_"+_level+"_"+_size+".dat"));
 				o.writeObject(h);
 				o.close();
@@ -103,7 +102,18 @@ import java.io.*;
 		 */
 		public void zeichnen() {
 			HighscoreEntry[] entries = this.getHighscores();
+			int highscore = 0;
 
+			for(HighscoreEntry e : entries)
+			{
+			if(e.getDateTime() != 99999)
+			{
+				highscore++;
+				break;
+			}
+			}
+			if(highscore>0)
+			{
 			ConsoleHelper.writeLine("        _       _                            ");
 			ConsoleHelper.writeLine("  /\\  /(_) __ _| |__  ___  ___ ___  _ __ ___");
 			ConsoleHelper.writeLine(" / /_/ / |/ _` | '_ \\/ __|/ __/ _ \\| '__/ _ \\");
@@ -111,8 +121,7 @@ import java.io.*;
 			ConsoleHelper.writeLine("\\/ /_/ |_|\\__, |_| |_|___/\\___\\___/|_|  \\___|");
 			ConsoleHelper.writeLine("          |___/                              ");
 			ConsoleHelper.writeLine("");
-
-
+			}
 			int i = 1;
 			for(HighscoreEntry e : entries)
 			{
