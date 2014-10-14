@@ -68,14 +68,13 @@ public class Game {
 			_schwierigkeitsgrad = 99;
 		}
 		
-		_highscore = new Highscore(_schwierigkeitsgrad);
 		
 		answer = ConsoleHelper.askQuestion("WŠhle eine Spielbrettgršsse: 5x5 / 7x7 / 10x10", "5", "7", "10");
 		
 		int brettGroesse = Integer.parseInt(answer);
 		
 		_board = new Board(brettGroesse, _schwierigkeitsgrad);
-		
+		_highscore = new Highscore(_schwierigkeitsgrad, brettGroesse);
 		_timer.scheduleAtFixedRate(_updateTimeTask,1000, 1000);
 	}
 	
@@ -208,7 +207,7 @@ public class Game {
 			int i = 1;
 			for(HighscoreEntry e : entries)
 			{
-				ConsoleHelper.writeLine(i + ". " + e.getName() + "\t\t\t\t\t" + e.getDateTime());
+				ConsoleHelper.writeLine(i++ + ". " + e.getName() + "\t\t\t\t\t" + e.getDateTime());
 			}
 		}
 		
