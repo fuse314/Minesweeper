@@ -204,6 +204,12 @@ public class Game {
 		{
 			if(_player1.getLives() <= 0)
 			{
+				ConsoleHelper.clearConsole();
+				
+				GameOverAnimation anim = new GameOverAnimation(30,100);
+				anim.play();
+				ConsoleHelper.clearConsole();
+				
 				ConsoleHelper.writeLine(" _____ ____  _      _____   ____  _     _____ ____"); 
 				ConsoleHelper.writeLine("/  __//  _ \\/ \\__/|/  __/  /  _ \\/ \\ |\\/  __//  __\\");
 				ConsoleHelper.writeLine("| |  _| / \\|| |\\/|||  \\    | / \\|| | //|  \\  |  \\/|");
