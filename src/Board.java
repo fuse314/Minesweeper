@@ -156,8 +156,24 @@ public class Board {
 			} else {
 				_aktField.setZustand(FieldZustand.Offen);
 				if(_aktField.getProximity() == 0) {  // keine Zahl, somit rekursive Suche bis Rand oder Zahl
-					if(x > 1) { aufdecken(x-1,y); }      // nach links aufdecken
-					if(x < _size) { aufdecken(x+1,y); }  // nach rechts aufdecken
+					if(x > 1) {
+						aufdecken(x-1,y);               // nach links aufdecken
+						if(y > 1) {
+							aufdecken(x-1, y-1);		// nach links oben aufdecken
+						}
+						if(y < _size) {
+							aufdecken(x-1, y+1);        // nach links unten aufdecken
+						}
+					}
+					if(x < _size) {
+						aufdecken(x+1,y);				// nach rechts aufdecken
+						if(y > 1) {
+							aufdecken(x+1,y-1);			// nach rechts oben aufdecken
+						}
+						if(y < _size) {
+							aufdecken(x+1,y+1);			// nach rechts unten aufdecken
+						}
+					}
 					if(y > 1) { aufdecken(x,y-1); }      // nach oben aufdecken
 					if(y < _size) { aufdecken(x,y+1); }  // nach unten aufdecken
 				}
