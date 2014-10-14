@@ -42,7 +42,12 @@ public class HighscoreEntry implements Serializable
 	 */
 	public String getName()
 	{
-		return this._name;
+		switch(this._name.length()) {
+		case 0: return "   ";
+		case 1: return this._name + "  ";
+		case 2: return this._name + " ";
+		default: return this._name;
+		}
 	}
 	
 	/**

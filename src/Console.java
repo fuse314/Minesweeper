@@ -30,6 +30,10 @@ public class Console {
 		_currentLine = 0;
 	}
 	
+	public void quitScreen() {
+		_screen.stopScreen();
+	}
+	
 	public void writeLine(String message)
 	{
 		writeAtPosition(0, _currentLine, message);
@@ -93,13 +97,15 @@ public class Console {
 	}
 
 	public TerminalPosition getSelectedPosition(int startingRow, int startingCol, int numberOfElements, int horizontalDistance,
-			int verticalDistance) {
+			int verticalDistance, int initialRow, int initialCol) {
 		
 		int hMax = startingCol + ((numberOfElements - 1) * horizontalDistance); 
 		int vMax = startingRow + ((numberOfElements - 1) * verticalDistance);
 		
 		TerminalPosition origPos = _screen.getCursorPosition();
-		TerminalPosition selectedPos = new TerminalPosition(startingCol, startingRow);
+		TerminalPosition selectedPos = new TerminalPosition(
+				((initialCol-1)*horizontalDistance)+startingCol,
+				((initialRow-1)*verticalDistance)+startingRow);
 		_screen.setCursorPosition(selectedPos);
 		while(true)
 		{
@@ -133,6 +139,11 @@ public class Console {
 		_screen.setCursorPosition(origPos);
 		
 		_screen.putString(selectedPos.getColumn(), selectedPos.getRow(), "X", Terminal.Color.BLUE, Terminal.Color.DEFAULT, ScreenCharacterStyle.Blinking );
+		
+		// calculate x,y position and make it 1-based
+		selectedPos.setRow(((selectedPos.getRow()-startingRow) / verticalDistance)+1) ;
+		selectedPos.setColumn(((selectedPos.getColumn() - startingCol) / horizontalDistance)+1);
+		
 		return selectedPos;
 		
 	}

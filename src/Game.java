@@ -20,6 +20,8 @@ public class Game {
 	Timer _timer;
 	UpdateTimeTimerTask _updateTimeTask;
 	Highscore _highscore;
+	int _xpos=1;
+	int _ypos=1;
 	
 	/**
 	 * Instantiates a new game.
@@ -128,15 +130,16 @@ public class Game {
 			
 			
 			int startingRow = getIsMultiplayer() ? 4 : 2;
-			int startingCol = _board.getSize() == 10 ? 5 : 4;
 			int numberOfElements = _board.getSize();
-			TerminalPosition pos = Console.getInstance().getSelectedPosition(startingRow, startingCol, numberOfElements, 
-					_board.getHorizontalFieldDistance(), _board.getVerticalFieldDistance());
+			TerminalPosition pos = Console.getInstance().getSelectedPosition(startingRow, _board.getHorizontalFieldStart(), numberOfElements, 
+					_board.getHorizontalFieldDistance(), _board.getVerticalFieldDistance(),_ypos,_xpos);
 			
-			int xCoord = ((pos.getColumn() - startingCol) / _board.getHorizontalFieldDistance()) + 1;
-			int yCoord = pos.getRow() - startingRow + 1;
+			int xCoord = pos.getColumn();
+			_xpos = xCoord;
+			int yCoord = pos.getRow();
+			_ypos = yCoord;
 			
-			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "m", "a");
+			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "a", "m");
 			
 			if(action.equals("m"))
 				_board.markieren(xCoord, yCoord);
@@ -183,6 +186,10 @@ public class Game {
 	 */
 	private void showGameOverStats() {
 		//Spiel ist fertig, entweder gewonnen oder alle leben verloren
+		
+		//deaktiviere den Timer
+		_timer.cancel();
+		
 		ConsoleHelper.clearConsole();
 		
 		if(!getIsMultiplayer())
@@ -223,8 +230,6 @@ public class Game {
 			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
 			ConsoleHelper.writeLine("");
 		}
-		
-		_timer.cancel();
 	}
 	
 	
