@@ -196,21 +196,17 @@ public class Game {
 				ConsoleHelper.writeLine("| |  _| / \\|| |\\/|||  \\    | / \\|| | //|  \\  |  \\/|");
 				ConsoleHelper.writeLine("| |_//| |-||| |  |||  /_   | \\_/|| \\// |  /_ |    /");
 				ConsoleHelper.writeLine("\\____\\\\_/ \\|\\_/  \\|\\____\\  \\____/\\__/  \\____\\\\_/\\_\\");
+				ConsoleHelper.writeLine("");
 			}
 			else
 				_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
 			
-			HighscoreEntry[] entries = _highscore.getHighscores();
-			
-			int i = 1;
-			for(HighscoreEntry e : entries)
-			{
-				ConsoleHelper.writeLine(i++ + ". " + e.getName() + "\t\t\t\t\t" + e.getDateTime());
-			}
+			_highscore.zeichnen();
 		}
-		
+		ConsoleHelper.writeLine("");
+		ConsoleHelper.writeLine("Auflšsung:");
 		_board.zeichnen(true);
-		
+		ConsoleHelper.writeLine("");
 		if(getIsMultiplayer())
 		{
 			Player winner;
@@ -223,6 +219,7 @@ public class Game {
 
 			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
 			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
+			ConsoleHelper.writeLine("");
 		}
 		
 		_timer.cancel();

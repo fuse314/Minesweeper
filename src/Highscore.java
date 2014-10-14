@@ -106,4 +106,29 @@
 			
 			return _success;
 		}
+
+		public void zeichnen() {
+			HighscoreEntry[] entries = this.getHighscores();
+			
+		  ConsoleHelper.writeLine("         _       _                            ");
+	      ConsoleHelper.writeLine("  /\\  /(_) __ _| |__  ___  ___ ___  _ __ ___"); 
+	      ConsoleHelper.writeLine(" / /_/ / |/ _` | '_ \\/ __|/ __/ _ \\| '__/ _ \\");
+	      ConsoleHelper.writeLine("/ __  /| | (_| | | | \\__ \\ (_| (_) | | |  __/");
+	      ConsoleHelper.writeLine("\\/ /_/ |_|\\__, |_| |_|___/\\___\\___/|_|  \\___|");
+	      ConsoleHelper.writeLine("          |___/                              ");
+
+			
+			int i = 1;
+			for(HighscoreEntry e : entries)
+			{
+				if(e.getDateTime() != 99999)
+				{
+					if(i < 10)
+						ConsoleHelper.writeLine(" " + i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
+					else
+						ConsoleHelper.writeLine(i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
+				}
+			}
+			
+		}
 	}
