@@ -1,5 +1,7 @@
 import java.io.*;
 
+import com.googlecode.lanterna.screen.ScreenCharacterStyle;
+
 	/**
 	 * @author: Elias 
 	 * The Class Highscore. Maintains the highscore order and saves it to a file
@@ -128,14 +130,25 @@ import java.io.*;
 			}
 			
 			int i = 1;
+			boolean foundBlinkingEntry = false;
 			for(HighscoreEntry e : entries)
 			{
 				if(e.getDateTime() != 99999)
 				{
+					String str = "";
 					if(i < 10)
-						c.writeLine(" " + i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
+						str = " " + i++ + ". " + e.getName() + " ---------- " + e.getDateTime();
 					else
-						c.writeLine(i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
+						str = i++ + ". " + e.getName() + " ---------- " + e.getDateTime();
+					
+					if(blinkingEntry != null && !foundBlinkingEntry &&
+					   e.getDateTime() == blinkingEntry.getDateTime() && e.getName().equals(blinkingEntry.getName()))
+					{
+						c.writeLine(str, ScreenCharacterStyle.Blinking);
+						foundBlinkingEntry = true;
+					}
+					else
+						c.writeLine(str);
 				}
 			}
 
