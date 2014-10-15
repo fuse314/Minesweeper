@@ -118,6 +118,14 @@ public class Board {
 		return 4;
 	}
 
+	/**
+	 * Gets horizontal starting position of field
+	 * @return starting position of leftmost field
+	 */
+	public int getHorizontalFieldStart() {
+		return (_size == 10) ? 5 : 4;
+	}
+	
 	/** The fields of the board. */
 	private Field[][] _fields;
 	

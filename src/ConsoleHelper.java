@@ -37,6 +37,8 @@ public final class ConsoleHelper {
 		
 		if(possibleAnswers.length > 0)
 		{
+			// first entry in possibleAnswers is default entry (just press enter)
+			possibleAnswers[0] = possibleAnswers[0].toUpperCase();
 			answerList = "(";
 			for(int i = 0; i < possibleAnswers.length; i++)
 			{
@@ -56,11 +58,16 @@ public final class ConsoleHelper {
 			
 			if(possibleAnswers.length > 0)
 			{
+				// first entry in possibleAnswers is default entry (just press enter)
+				if(retVal == "") {
+					retVal = possibleAnswers[0].toLowerCase();
+				}
 				for(int i = 0; i < possibleAnswers.length; i++)
 				{
 					if(possibleAnswers[i].toUpperCase().equals(retVal.toUpperCase()))
 					{
 						gotAnswer = true;
+						break;
 					}
 				}
 				

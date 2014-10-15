@@ -1,32 +1,59 @@
+/**
+ * 
+ * @author Gottfried Mayer
+ * 
+ * Awesome explosion game end animation
+ * 
+ * Converted to Java from
+ * http://codegolf.stackexchange.com/questions/24462/display-the-explosion-of-a-star-in-ascii-art
+ *
+ */
 
 public class GameOverAnimation {
-
-	int NUM_FRAMES = 150;
-	int NUM_BLOBS = 800;
-	double PERSPECTIVE = 50.0;
+	// some global variables
+	final int NUM_FRAMES = 150;
+	final int NUM_BLOBS = 600;
+	final int SHOW_LOGO_FRAMES = 120;
+	final double PERSPECTIVE = 50.0;
+	int _logoWidth, _logoHeight;
 	
 	int _width,_height;
 	
+	// simple static "random" number generator
 	private static long s=1;
 	public static double prng() {
 		s = s * 1488248101 + 981577151;
 		return ((s % 65536) - 32768) / 32768.0;
 	}
 	
-	private String frames[] = new String[NUM_FRAMES];
-	private char p;
-	private int i,j,x,y,z,v,ith,i0;
-	private int maxx,minx,maxy,miny,delay=1000;
+	private String frames[] = new String[NUM_FRAMES]; // framebuffer to hold all strings
+	private int i,j,x,y,v,i0,ith;
+	private int maxx,minx,maxy,miny,delay=80;
 	private double bx,by,bz,br,r,th,t;
-	private GameOverAnimationSpaceblob blobs[];
+	private GameOverAnimationSpaceblob blobs[];  // particles to move out from the center
 	
-	public GameOverAnimation(int height,int width) {
+	/**
+	 * Creates an instance of GameOverAnimation
+	 * @param height of animation
+	 * @param width of animation
+	 * @param hasLost 
+	 */
+	public GameOverAnimation(int height,int width, boolean hasLost) {
 		_width = Helper.constrain(width, 5, 100);
 		_height = Helper.constrain(height, 7, 100);
 		minx = -_width / 2;
 		maxx = _width+minx-1;
 		miny = -_height / 2;
 		maxy = _height+miny-1;
+		
+		// set logo size
+		if(hasLost) {
+			_logoWidth=45;
+		} else {
+			_logoWidth=42;
+		}
+		_logoHeight=14;
+		
 		
 		// generate "random" blob coordinates
 		blobs = new GameOverAnimationSpaceblob[NUM_BLOBS];
@@ -41,6 +68,7 @@ public class GameOverAnimation {
 			blobs[i].z = (bz / br) * (1.3 + 0.2 * prng());
 		}
 		
+		// create initial framebuffer explosion animation
 		for(i=0;i<NUM_FRAMES; i++) {
 			t = (1. * i) / NUM_FRAMES;
 			int n = _width * _height;
@@ -109,6 +137,50 @@ public class GameOverAnimation {
 				}
 			}
 			
+			// paint logo if there is space in the center of the last SHOW_LOGO_FRAMES frames
+			if(hasLost) {
+				if(_width>=_logoWidth && _height>=_logoHeight && i>NUM_FRAMES-SHOW_LOGO_FRAMES) {
+					// calculate start position (top left) of text
+					x = (_width-_logoWidth)/2;
+					y = (_height-_logoHeight)/2;
+					
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),  " ::::::::     :::    ::::    :::: ::::::::::");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),":+:    :+:  :+: :+:  +:+:+: :+:+:+:+:       ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+:+        +:+   +:+ +:+ +:+:+ +:++:+       ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),":#:       +#++:++#++:+#+  +:+  +#++#++:++#  ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+#+   +#+#+#+     +#++#+       +#++#+       ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"#+#    #+##+#     #+##+#       #+##+#       ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++)," ######## ###     ######       #############");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++)," ::::::::  :::     ::: :::::::::: ::::::::: ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),":+:    :+: :+:     :+: :+:        :+:    :+:");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+:+    +:+ +:+     +:+ +:+        +:+    +:+");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+#+    +:+ +#+     +:+ +#++:++#   +#++:++#: ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+#+    +#+  +#+   +#+  +#+        +#+    +#+");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"#+#    #+#   #+#+#+#   #+#        #+#    #+#");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++)," ########      ###     ########## ###    ###");
+				}
+			} else {
+				if(_width>=_logoWidth && _height>=_logoHeight && i>NUM_FRAMES-SHOW_LOGO_FRAMES) {
+					// calculate start position (top left) of text
+					x = (_width-_logoWidth)/2;
+					y = (_height-_logoHeight)/2;
+					
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),  "    :::   :::  ::::::::  :::    :::     ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"    :+:   :+: :+:    :+: :+:    :+:     ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"     +:+ +:+  +:+    +:+ +:+    +:+     ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"      +#++:   +#+    +:+ +#+    +:+     ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"       +#+    +#+    +#+ +#+    +#+     ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"       #+#    #+#    #+# #+#    #+#     ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"       ###     ########   ########      ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),":::       ::::::::::::::::::    :::  :::");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),":+:       :+:    :+:    :+:+:   :+:  :+:");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+:+       +:+    +:+    :+:+:+  +:+  +:+");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+#+  +:+  +#+    +#+    +#+ +:+ +#+  +#+");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"+#+ +#+#+ +#+    +#+    +#+  +#+#+#  +#+");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++)," #+#+# #+#+#     #+#    #+#   #+#+#     ");
+					frames[i] = insertAtPos(frames[i],getIdx(x,y++),"  ###   ###  ##############    ####  ###");
+				}
+			}
 			
 			// add blobs with perspective effect
 			if(i>6) {
@@ -122,21 +194,21 @@ public class GameOverAnimation {
 			        y = (int)(_height / 2 + by * PERSPECTIVE / (bz+PERSPECTIVE));
 			        if (x>=0 && x<_width && y>=0 && y<_height) {
 			        	String _c = (bz>40) ? "." : (bz>-20) ? "o" : "@";
-			        	frames[i] = frames[i].substring(0, getIdx(x,y)) + _c + frames[i].substring(getIdx(x,y)+1);
+			        	frames[i] = insertAtPos(frames[i],getIdx(x,y),_c);
 			        }
 				}
 			}
 		}
 	}
 	
+	/**
+	 * plays game end animation
+	 */
 	public void play() {
 		Console _c = Console.getInstance();
 		for(i=0;i<NUM_FRAMES;i++) {
 			for(j=0;j<_height;j++) {
-				if(getIdx(_width,j) > frames[i].length()) {
-					int _foo = frames[i].length();
-				} else {
-					//String _test = frames[i].substring(_start,_end);
+				if(getIdx(_width,j) <= frames[i].length()) {
 					_c.writeAtPosition(0,j,frames[i].substring(getIdx(0,j), getIdx(_width,j)));
 				}
 			}
@@ -147,9 +219,34 @@ public class GameOverAnimation {
 			}
 			delay=33;  // change to 30fps after first frame
 		}
-		
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * inserts a string at a position
+	 * @param orig original string to be inserted to
+	 * @param pos position to be inserting at
+	 * @param part string to be inserting
+	 * @return new string with part inserted
+	 */
+	private String insertAtPos(String orig, int pos, String part ) {
+		if(pos > orig.length()) return orig;
+		if(pos+part.length() > orig.length()) {
+			return orig.substring(0, pos)+part;
+		}
+		return orig.substring(0, pos)+part+orig.substring(pos+part.length()); 
+	}
+	
+	/**
+	 * calculates string position from x/y coordinates
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @return position in string
+	 */
 	private int getIdx(int x, int y) {
 		return (y*_width) + x;
 	}

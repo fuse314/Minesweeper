@@ -20,10 +20,10 @@ public final class Main {
 			ConsoleHelper.writeLine("   _____   .__                                                                        ");
 			ConsoleHelper.writeLine("  /     \\  |__|  ____    ____    ________  _  __  ____   ____  ______    ____ _______ ");
 			ConsoleHelper.writeLine(" /  \\ /  \\ |  | /    \\ _/ __ \\  /  ___/\\ \\/ \\/ /_/ __ \\_/ __ \\ \\____ \\ _/ __ \\_  __ \\");
-			ConsoleHelper.writeLine("/    Y    \\|  ||   |  \\\\  ___/  \\___ \\  \\     / \\  ___/\\  ___/ |  |_> >\\  ___/ |  | \\/");
+			ConsoleHelper.writeLine("/    Y    \\|  ||   |  \\\\  ___/  \\___ \\  \\     / \\  ___/\\  ___/ |  |_> >\\  ___/ |  |\\/");
 			ConsoleHelper.writeLine("\\____|__  /|__||___|  / \\___  >/____  >  \\/\\_/   \\___  >\\___  >|   __/  \\___  >|__|   ");
 			ConsoleHelper.writeLine("        \\/          \\/      \\/      \\/               \\/     \\/ |__|         \\/        ");
-			ConsoleHelper.writeLine(" ");
+			ConsoleHelper.writeLine("                                                              (c) 2014 by ano,gma,mau");
 			
 			
 			Game game = new Game();
@@ -38,6 +38,7 @@ public final class Main {
 			if(answer.equals("n"))
 			{
 				shouldExit = true;
+				Console.getInstance().quitScreen();
 			}
 		}
 	}
