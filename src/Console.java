@@ -106,9 +106,14 @@ public class Console {
 		TerminalPosition selectedPos = new TerminalPosition(
 				((initialCol-1)*horizontalDistance)+startingCol,
 				((initialRow-1)*verticalDistance)+startingRow);
+		
 		_screen.setCursorPosition(selectedPos);
+		
 		while(true)
 		{
+
+			_screen.refresh();
+			
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -122,6 +127,7 @@ public class Console {
 			
 			if(k.getKind() == Key.Kind.Enter)
 				break;
+
 			
 			if(k.getKind() == Key.Kind.ArrowDown && selectedPos.getRow() < vMax)
 				selectedPos.setRow(selectedPos.getRow() + verticalDistance);
@@ -134,6 +140,7 @@ public class Console {
 				selectedPos.setColumn(selectedPos.getColumn() - horizontalDistance);
 			
 			_screen.setCursorPosition(selectedPos);
+			
 		}
 		
 		_screen.setCursorPosition(origPos);
