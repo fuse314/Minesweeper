@@ -11,9 +11,9 @@
 
 public class GameOverAnimation {
 	// some global variables
-	final int NUM_FRAMES = 150;
+	final int NUM_FRAMES = 110; //150
 	final int NUM_BLOBS = 600;
-	final int SHOW_LOGO_FRAMES = 120;
+	final int SHOW_LOGO_FRAMES = 80;  // 120
 	final double PERSPECTIVE = 50.0;
 	int _logoWidth, _logoHeight;
 	
@@ -27,10 +27,11 @@ public class GameOverAnimation {
 	}
 	
 	private String frames[] = new String[NUM_FRAMES]; // framebuffer to hold all strings
-	private int i,j,x,y,v,i0,ith;
+	private int i,j,x,y,v,i0/*,ith*/;
 	private int maxx,minx,maxy,miny,delay=80;
-	private double bx,by,bz,br,r,th,t;
+	private double bx,by,bz,br,r/*,th,t*/;
 	private GameOverAnimationSpaceblob blobs[];  // particles to move out from the center
+	private boolean _hasLost;
 	
 	/**
 	 * Creates an instance of GameOverAnimation
@@ -46,8 +47,9 @@ public class GameOverAnimation {
 		miny = -_height / 2;
 		maxy = _height+miny-1;
 		
+		_hasLost = hasLost;
 		// set logo size
-		if(hasLost) {
+		if(_hasLost) {
 			_logoWidth=45;
 		} else {
 			_logoWidth=42;
@@ -70,8 +72,7 @@ public class GameOverAnimation {
 		
 		// create initial framebuffer explosion animation
 		for(i=0;i<NUM_FRAMES; i++) {
-			t = (1. * i) / NUM_FRAMES;
-			int n = _width * _height;
+			//t = (1. * i) / NUM_FRAMES;
 			frames[i] = ""; //String.format("%1$#"+n+"s", ""); // initialize frame with spaces
 			for(y=miny;y<=maxy; y++) {
 				for(x=minx;x<=maxx; x++) {
@@ -88,7 +89,7 @@ public class GameOverAnimation {
 					}
 					// show blast wave
 					r = Math.sqrt(x*x + 4*y*y) * (0.5 + (prng()/3.0)*Math.cos(16.*Math.atan2(y*2.+0.01, x+0.01))*.3);
-					ith = (int)(32+th*32. * (1/Math.PI));
+					//ith = (int)(32+th*32. * (1/Math.PI));
 					v = (int)(i - r - 7);
 					if(v<0) {
 						if(i<19) {
@@ -138,7 +139,7 @@ public class GameOverAnimation {
 			}
 			
 			// paint logo if there is space in the center of the last SHOW_LOGO_FRAMES frames
-			if(hasLost) {
+			if(_hasLost) {
 				if(_width>=_logoWidth && _height>=_logoHeight && i>NUM_FRAMES-SHOW_LOGO_FRAMES) {
 					// calculate start position (top left) of text
 					x = (_width-_logoWidth)/2;
@@ -206,10 +207,17 @@ public class GameOverAnimation {
 	 */
 	public void play() {
 		Console _c = Console.getInstance();
+		int _fr;
 		for(i=0;i<NUM_FRAMES;i++) {
+			
+			if(_hasLost) {  // play animation forward (game over) or backward (you win)
+				_fr = i;
+			} else {
+				_fr = NUM_FRAMES-1-i;
+			}
 			for(j=0;j<_height;j++) {
-				if(getIdx(_width,j) <= frames[i].length()) {
-					_c.writeAtPosition(0,j,frames[i].substring(getIdx(0,j), getIdx(_width,j)));
+				if(getIdx(_width,j) <= frames[_fr].length()) {
+					_c.writeAtPosition(0,j,frames[_fr].substring(getIdx(0,j), getIdx(_width,j)));
 				}
 			}
 			try {
@@ -217,10 +225,14 @@ public class GameOverAnimation {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			delay=33;  // change to 30fps after first frame
+			if(i>NUM_FRAMES-20) { // speed up last few frames
+				delay=10;  // 100fps playback
+			} else {
+				delay=33;  // 30fps playback
+			}
 		}
 		try {
-			Thread.sleep(200);
+			Thread.sleep(100);  // hold last frame
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

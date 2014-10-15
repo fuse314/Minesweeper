@@ -1,3 +1,5 @@
+import com.googlecode.lanterna.terminal.Terminal;
+
 /**
  * @author Maurus Kühne
  * ConsoleHelper, stellt div. Funktionen für den einfacheren Zugriff auf die Konsole bereit
@@ -21,6 +23,47 @@ public final class ConsoleHelper {
 	{
 		Console.getInstance().writeLine(text);
 	}
+	
+	/**
+	 * Writes Text to console
+	 * @param text to write
+	 * @param style numeric style for easy fore/background color usage
+	 * @param linebreak after text (like println())
+	 */
+	public static void write(String text, int style, boolean linebreak) {
+		Terminal.Color fcolor;
+		Terminal.Color bcolor;
+		switch(style) {
+		case 0: fcolor = Terminal.Color.WHITE; bcolor = Terminal.Color.BLACK; break;
+		case 1: fcolor = Terminal.Color.GREEN; bcolor = Terminal.Color.BLACK; break;
+		case 2: fcolor = Terminal.Color.CYAN; bcolor = Terminal.Color.BLACK; break;
+		case 3: fcolor = Terminal.Color.BLUE; bcolor = Terminal.Color.BLACK; break;
+		case 4: fcolor = Terminal.Color.YELLOW; bcolor = Terminal.Color.BLACK; break;
+		case 5: fcolor = Terminal.Color.RED; bcolor = Terminal.Color.BLACK; break;
+		case 6: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.GREEN; break;
+		case 7: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.CYAN; break;
+		case 8: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.BLUE; break;
+		case 9: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.YELLOW; break;
+		case 10: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.RED; break;
+		case 11: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.BLACK; break;
+		case 12: fcolor = Terminal.Color.MAGENTA; bcolor = Terminal.Color.BLACK; break;
+		default: fcolor = Terminal.Color.WHITE; bcolor = Terminal.Color.BLACK; break;
+		}
+		write(text,fcolor,bcolor,linebreak);
+	}
+	
+	/**
+	 * Writes Text to console
+	 * @param text to write
+	 * @param fcolor foreground color
+	 * @param bcolor background color
+	 * @param linebreak after text (like println() )
+	 */
+	public static void write(String text, Terminal.Color fcolor, Terminal.Color bcolor, boolean linebreak) {
+		Console.getInstance().write(text,fcolor,bcolor, linebreak);
+	}
+	
+	
 	
 	/**
 	 * Asks a question.

@@ -6,7 +6,7 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.ScreenCharacterStyle;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalPosition;
-import com.googlecode.lanterna.terminal.TerminalSize;
+//import com.googlecode.lanterna.terminal.TerminalSize;
 
 
 public class Console {
@@ -39,6 +39,20 @@ public class Console {
 		writeAtPosition(0, _currentLine, message);
 		_currentLine++;
 		_screen.setCursorPosition(0, _currentLine);
+		_screen.refresh();
+	}
+	
+	public void write(String message, Terminal.Color fcolor, Terminal.Color bcolor, boolean linebreak) {
+		TerminalPosition _pos = _screen.getCursorPosition();
+		_screen.putString(_pos.getColumn(), _pos.getRow(), message, fcolor, bcolor, ScreenCharacterStyle.Bold);
+		if(linebreak) {
+			_pos.setColumn(0);
+			_pos.setRow(_pos.getRow()+1);
+			_currentLine++;
+		} else {
+			_pos.setColumn(_pos.getColumn()+message.length());
+		}
+		_screen.setCursorPosition(_pos);
 		_screen.refresh();
 	}
 	
