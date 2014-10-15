@@ -213,28 +213,29 @@ public class Board {
 	 * @param showMines to show all the mines (after game over)
 	 */
 	public void zeichnen(boolean showMines) {
-		//String _line;
+		Console c = Console.getInstance();
 		if(_size < 10) {  // set left border
-			ConsoleHelper.write(" ", 0, false);
+			c.write(" ", 0, false);
 		} else {
-			ConsoleHelper.write("  ", 0, false);
+			c.write("  ", 0, false);
 		}
 		char _alph = 65;  // first line, draw A,B,C,etc...
 		for(int i=0;i<_size;i++) {
-			ConsoleHelper.write(" | ", 0, false);
-			ConsoleHelper.write(""+(char)(_alph+i),12,false);
+			c.write(" | ", 0, false);
+			c.write(""+(char)(_alph+i),12,false);
 		}
-		ConsoleHelper.write("", 0, true);
+		c.write("", 0, true);
 		for(int _y=0;_y<_size;_y++) {  // write game board
 			if(_y < 9 && _size >= 10) {  // left border
-				ConsoleHelper.write(" ",0,false);
+				c.write(" ",0,false);
 			}
-			ConsoleHelper.write(""+(_y+1), 12, false);
+			c.write(""+(_y+1), 12, false);
 			for(int _x=0;_x<_size;_x++) {
-				ConsoleHelper.write(" | ",0,false);
-				ConsoleHelper.write(_fields[_x][_y].toString(showMines), _fields[_x][_y].toInt(showMines), false);
+				c.write(" | ",0,false);
+				c.write(_fields[_x][_y].toString(showMines), _fields[_x][_y].toInt(showMines), false);
 			}
-			ConsoleHelper.write("", 0, true);
+
+			c.write("", 0, true);
 		}
 	}
 	
