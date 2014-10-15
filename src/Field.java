@@ -1,3 +1,6 @@
+import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.Terminal.Color;
+
 /**
  * @author Gottfried Mayer
  * Field class - one field on the game board.
@@ -83,26 +86,38 @@ public class Field {
 	}
 	
 	/**
-	 * string to represent the field state.
-	 *
+	 * calculates the character which should be drawn inside of this field
 	 * @param showMines show all the mines (after game over)
-	 * @return the string
+	 * @return all information needed to draw this field
 	 */
-	public String toString(boolean showMines) {
+	public FieldDrawingInformation getDrawingInformation(boolean showMines)
+	{
+		String chr = "";
+		Terminal.Color color = Color.WHITE;
 		if(showMines) {
-			if(_mine) { return "X"; }
+			if(_mine) { 
+				chr = "X";
+				color = Color.RED;
+			}
 		}
 		switch(_zustand) {
 		case Markiert:
-			return "M";
+			chr = "M";
+			color = Color.GREEN;
+			break;
 		case Offen:
 			if(_mine) {
-				return "X";
+				chr = "X";
+				color = Color.RED;
 			} else {
-				return Integer.toString(_proximity);
+				chr = Integer.toString(_proximity);
 			}
+			break;
 		default:
-			return " ";
+			chr = " ";
+			break;
 		}
+		
+		return new FieldDrawingInformation(chr, color);
 	}
 }
