@@ -1,5 +1,3 @@
-import com.googlecode.lanterna.terminal.Terminal.Color;
-
 /**
  * @author Gottfried Mayer
  * The game board class.
@@ -216,7 +214,6 @@ public class Board {
 	 */
 	public void zeichnen(boolean showMines) {
 		
-		Console c = Console.getInstance();
 		String _line;
 		if(_size < 10) {
 			_line = " ";
@@ -235,16 +232,10 @@ public class Board {
 				_line = "";
 			}
 			_line += "" + (_y+1);
-			
-			c.write(_line, Color.WHITE);
-			
 			for(int _x=0;_x<_size;_x++) {
-				FieldDrawingInformation inf = _fields[_x][_y].getDrawingInformation(showMines);
-				
-				c.write(" | ", Color.WHITE);
-				c.write(inf.getCharacter(), inf.getColor());
+				_line += " | " + _fields[_x][_y].toString(showMines);
 			}
-			c.newLine();
+			Console.getInstance().writeLine(_line);
 		}
 	}
 	

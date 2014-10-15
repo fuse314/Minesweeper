@@ -15,9 +15,7 @@ public class Console {
 	
 	Screen _screen;
 	int _currentLine = 0;
-	int _currentColumn = 0;
 	
-
 	private Console()
 	{
 	    Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
@@ -45,30 +43,6 @@ public class Console {
 	}
 	
 	/**
-	 * returns the currently active line
-	 * @return the current linenumber
-	 */
-	public int getCurrentLine() {
-		return _currentLine;
-	}
-	
-	/**
-	 * moves the cursor to the next line, marks the next line as active
-	 */
-	public void newLine() {
-		_currentLine++;
-		_currentColumn = 0;
-		_screen.setCursorPosition(0, _currentLine);
-	}
-	
-	public void write(String text, Terminal.Color color)
-	{
-		_screen.putString(_currentColumn, _currentLine, text, color, Terminal.Color.BLACK, ScreenCharacterStyle.Bold );
-		_currentColumn += text.length();
-		_screen.refresh();
-	}
-	
-	/**
 	 * Writes a single line.
 	 *
 	 * @param text text to display
@@ -86,10 +60,10 @@ public class Console {
 	public void writeLine(String text, ScreenCharacterStyle style)
 	{
 		writeAtPosition(0, _currentLine, text, style);
-		newLine();
+		_currentLine++;
+		_screen.setCursorPosition(0, _currentLine);
 		_screen.refresh();
 	}
-	
 	
 	/**
 	 * writes text at a specified coordinate
