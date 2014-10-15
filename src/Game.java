@@ -1,9 +1,4 @@
-/*
- * 
- */
 import java.util.Timer;
-
-import com.googlecode.lanterna.gui.GUIScreen.Position;
 import com.googlecode.lanterna.terminal.TerminalPosition;
 
 /**
@@ -11,6 +6,7 @@ import com.googlecode.lanterna.terminal.TerminalPosition;
  * The Game class. Contains the game logic and manages the board, highscores and players
  */
 public class Game {
+	Console _console;
 	Board _board;
 	int elapsedSeconds;
 	int _schwierigkeitsgrad;
@@ -28,6 +24,7 @@ public class Game {
 	 */
 	public Game()
 	{
+		_console = Console.getInstance();
 		_timer = new Timer(true);
 		_updateTimeTask = new UpdateTimeTimerTask(this, _timer);
 		elapsedSeconds = 0;
@@ -37,7 +34,7 @@ public class Game {
 	 * Initializes a new game
 	 */
 	public void initialize() {
-		String answer = ConsoleHelper.askQuestion("Spielst du [a]lleine oder zu [z]weit?", "a", "z");
+		String answer = _console.askQuestion("Spielst du [a]lleine oder zu [z]weit?", "a", "z");
 		
 		if(answer.equals("a"))
 		{
@@ -46,17 +43,17 @@ public class Game {
 		}
 		else
 		{
-			ConsoleHelper.writeLine("Spieler 1: ");
+			_console.writeLine("Spieler 1: ");
 			String name = askForPlayerName();
 			_player1 = new Player(name);
 			
-			ConsoleHelper.writeLine("Spieler 2: ");
+			_console.writeLine("Spieler 2: ");
 			name = askForPlayerName();
 			_player2 = new Player(name);
 		}
 		_activePlayer = _player1;
 		
-		answer = ConsoleHelper.askQuestion("WŠhle eine Schwierigkeit: [e]infach, [m]ittel, [s]chwer, [u]nmšglich", "e", "m", "s", "u");
+		answer = _console.askQuestion("WŠhle eine Schwierigkeit: [e]infach, [m]ittel, [s]chwer, [u]nmšglich", "e", "m", "s", "u");
 		
 		switch(answer.charAt(0))
 		{
@@ -74,7 +71,7 @@ public class Game {
 		}
 		
 		
-		answer = ConsoleHelper.askQuestion("WŠhle eine Spielbrettgršsse: 5x5 / 7x7 / 10x10", "5", "7", "10");
+		answer = _console.askQuestion("WŠhle eine Spielbrettgršsse: 5x5 / 7x7 / 10x10", "5", "7", "10");
 		
 		int brettGroesse = Integer.parseInt(answer);
 		
@@ -94,9 +91,9 @@ public class Game {
 		String name = "";
 		while(!foundName)
 		{
-			name = ConsoleHelper.askQuestion("Gib einen Namen an (max 3 Zeichen)");
+			name = _console.askQuestion("Gib einen Namen an (max 3 Zeichen)");
 			if(name.length() > 3 || name.length() == 0)
-				ConsoleHelper.writeLine("Der Name darf max. 3 Zeichen lang sein!");
+				_console.writeLine("Der Name darf max. 3 Zeichen lang sein!");
 			else
 				foundName = true;
 		}
@@ -111,22 +108,22 @@ public class Game {
 		
 		while(!gameFinished)
 		{
-			ConsoleHelper.clearConsole();
+			_console.clearScreen();
 			
-			ConsoleHelper.updateStatusbar(elapsedSeconds,_activePlayer.getNickname(), _activePlayer.getLives(), 
+			_console.updateStatusbar(elapsedSeconds,_activePlayer.getNickname(), _activePlayer.getLives(), 
 					getIsMultiplayer(), _activePlayer.getFoundMines());
 				
 			if(getIsMultiplayer())
 			{
-				ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
-				ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
+				_console.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
+				_console.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
 			}
 			
-			ConsoleHelper.writeLine("");
+			_console.writeLine("");
 			
 			_board.zeichnen(false);
 			
-			ConsoleHelper.writeLine("");
+			_console.writeLine("");
 			
 			
 			int startingRow = getIsMultiplayer() ? 4 : 2;
@@ -139,7 +136,7 @@ public class Game {
 			int yCoord = pos.getRow();
 			_ypos = yCoord;
 			
-			String action = ConsoleHelper.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "a", "m");
+			String action = _console.askQuestion("Soll das Feld [m]arkiert, oder [a]ufgedeckt werden?", "a", "m");
 			
 			if(action.equals("m"))
 				_board.markieren(xCoord, yCoord);
@@ -187,14 +184,16 @@ public class Game {
 	private void showGameOverStats() {
 		//Spiel ist fertig, entweder gewonnen oder alle leben verloren
 		
+		HighscoreEntry newEntry = null;
+		
 		//deaktiviere den Timer
 		_timer.cancel();
 		
-		ConsoleHelper.clearConsole();
+		_console.clearScreen();
 		
 		if(!getIsMultiplayer())
 		{
-			ConsoleHelper.clearConsole();
+			_console.clearScreen();
 			GameOverAnimation anim;
 			if(_player1.getLives() <= 0)
 			{
@@ -202,19 +201,20 @@ public class Game {
 			}
 			else
 			{
-				_highscore.addHighscore(new HighscoreEntry(elapsedSeconds, _player1.getNickname()));
+				newEntry = new HighscoreEntry(elapsedSeconds, _player1.getNickname());
+				_highscore.addHighscore(newEntry);
 				
 				anim = new GameOverAnimation(30,100,false); // animation - you win!
 			}
 			anim.play();
-			ConsoleHelper.clearConsole();
-			_highscore.zeichnen();
+			_console.clearScreen();
+			_highscore.zeichnen(newEntry);
 		}
 		
-		ConsoleHelper.writeLine("");
-		ConsoleHelper.writeLine("Auflšsung:");
+		_console.writeLine("");
+		_console.writeLine("Auflšsung:");
 		_board.zeichnen(true);
-		ConsoleHelper.writeLine("");
+		_console.writeLine("");
 		
 		if(getIsMultiplayer())
 		{
@@ -224,11 +224,11 @@ public class Game {
 			else
 				winner = _player2;
 			
-			ConsoleHelper.writeLine("Spieler " + winner.getNickname() + " gewinnt mit " + winner.getFoundMines() + " Punkten.");
+			_console.writeLine("Spieler " + winner.getNickname() + " gewinnt mit " + winner.getFoundMines() + " Punkten.");
 
-			ConsoleHelper.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
-			ConsoleHelper.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
-			ConsoleHelper.writeLine("");
+			_console.writeLine("Punkte von " + _player1.getNickname() + ": " + _player1.getFoundMines());
+			_console.writeLine("Punkte von " + _player2.getNickname() + ": " + _player2.getFoundMines());
+			_console.writeLine("");
 		}
 	}
 	
@@ -248,7 +248,7 @@ public class Game {
 	 */
 	public void updateTime() {
 		elapsedSeconds++;
-		ConsoleHelper.updateStatusbar(elapsedSeconds,_activePlayer.getNickname(), _activePlayer.getLives(), 
+		_console.updateStatusbar(elapsedSeconds,_activePlayer.getNickname(), _activePlayer.getLives(), 
 				getIsMultiplayer(), _activePlayer.getFoundMines());
 	}
 

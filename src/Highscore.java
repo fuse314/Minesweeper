@@ -99,38 +99,43 @@ import java.io.*;
 
 		/**
 		 * draws the highscores into the console
+		 * 
+		 * @param blinkingEntry the entry that should be displayed blinking 
 		 */
-		public void zeichnen() {
+		public void zeichnen(HighscoreEntry blinkingEntry) {
 			HighscoreEntry[] entries = this.getHighscores();
-			int highscore = 0;
+			Console c = Console.getInstance();
+			boolean hasHighscores = false;
 
 			for(HighscoreEntry e : entries)
 			{
-			if(e.getDateTime() != 99999)
+				if(e.getDateTime() != 99999)
+				{
+					hasHighscores = true;
+					break;
+				}
+			}
+			
+			if(hasHighscores)
 			{
-				highscore++;
-				break;
+				c.writeLine("        _       _                            ");
+				c.writeLine("  /\\  /(_) __ _| |__  ___  ___ ___  _ __ ___");
+				c.writeLine(" / /_/ / |/ _` | '_ \\/ __|/ __/ _ \\| '__/ _ \\");
+				c.writeLine("/ __  /| | (_| | | | \\__ \\ (_| (_) | | |  __/");
+				c.writeLine("\\/ /_/ |_|\\__, |_| |_|___/\\___\\___/|_|  \\___|");
+				c.writeLine("          |___/                              ");
+				c.writeLine("");
 			}
-			}
-			if(highscore>0)
-			{
-			ConsoleHelper.writeLine("        _       _                            ");
-			ConsoleHelper.writeLine("  /\\  /(_) __ _| |__  ___  ___ ___  _ __ ___");
-			ConsoleHelper.writeLine(" / /_/ / |/ _` | '_ \\/ __|/ __/ _ \\| '__/ _ \\");
-			ConsoleHelper.writeLine("/ __  /| | (_| | | | \\__ \\ (_| (_) | | |  __/");
-			ConsoleHelper.writeLine("\\/ /_/ |_|\\__, |_| |_|___/\\___\\___/|_|  \\___|");
-			ConsoleHelper.writeLine("          |___/                              ");
-			ConsoleHelper.writeLine("");
-			}
+			
 			int i = 1;
 			for(HighscoreEntry e : entries)
 			{
 				if(e.getDateTime() != 99999)
 				{
 					if(i < 10)
-						ConsoleHelper.writeLine(" " + i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
+						c.writeLine(" " + i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
 					else
-						ConsoleHelper.writeLine(i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
+						c.writeLine(i++ + ". " + e.getName() + " ---------- " + e.getDateTime());
 				}
 			}
 

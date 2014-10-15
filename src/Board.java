@@ -224,7 +224,7 @@ public class Board {
 		for(int i=0;i<_size;i++) {
 			_line += " | " + (char)(_alph+i);
 		}
-		ConsoleHelper.writeLine(_line);
+		Console.getInstance().writeLine(_line);
 		for(int _y=0;_y<_size;_y++) {
 			if(_y < 9 && _size >= 10) {
 				_line = " ";
@@ -235,7 +235,7 @@ public class Board {
 			for(int _x=0;_x<_size;_x++) {
 				_line += " | " + _fields[_x][_y].toString(showMines);
 			}
-			ConsoleHelper.writeLine(_line);
+			Console.getInstance().writeLine(_line);
 		}
 	}
 	

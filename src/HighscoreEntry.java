@@ -16,8 +16,8 @@ public class HighscoreEntry implements Serializable
 	/**
 	 * Instantiates a new highscore entry.
 	 *
-	 * @param _datetime the score
-	 * @param _name the nickname of the player
+	 * @param datetime the score
+	 * @param name the nickname of the player
 	 */
 	public HighscoreEntry(int dateTime, String name)
 	{
