@@ -1,4 +1,5 @@
 import java.nio.charset.Charset;
+
 import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.screen.Screen;
@@ -65,6 +66,44 @@ public class Console {
 		_screen.refresh();
 	}
 	
+	/**
+	 * Writes Text to console
+	 * @param text to write
+	 * @param style numeric style for easy fore/background color usage
+	 * @param linebreak after text (like println())
+	 */
+	public void write(String text, int style, boolean linebreak) {
+		Terminal.Color fcolor;
+		Terminal.Color bcolor;
+		switch(style) {
+		case 0: fcolor = Terminal.Color.WHITE; bcolor = Terminal.Color.BLACK; break;
+		case 1: fcolor = Terminal.Color.GREEN; bcolor = Terminal.Color.BLACK; break;
+		case 2: fcolor = Terminal.Color.CYAN; bcolor = Terminal.Color.BLACK; break;
+		case 3: fcolor = Terminal.Color.BLUE; bcolor = Terminal.Color.BLACK; break;
+		case 4: fcolor = Terminal.Color.YELLOW; bcolor = Terminal.Color.BLACK; break;
+		case 5: fcolor = Terminal.Color.RED; bcolor = Terminal.Color.BLACK; break;
+		case 6: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.GREEN; break;
+		case 7: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.CYAN; break;
+		case 8: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.BLUE; break;
+		case 9: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.YELLOW; break;
+		case 10: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.RED; break;
+		case 11: fcolor = Terminal.Color.BLACK; bcolor = Terminal.Color.BLACK; break;
+		case 12: fcolor = Terminal.Color.MAGENTA; bcolor = Terminal.Color.BLACK; break;
+		default: fcolor = Terminal.Color.WHITE; bcolor = Terminal.Color.BLACK; break;
+		}
+		TerminalPosition _pos = _screen.getCursorPosition();
+		_screen.putString(_pos.getColumn(), _pos.getRow(), text, fcolor, bcolor, ScreenCharacterStyle.Bold);
+		if(linebreak) {
+			_pos.setColumn(0);
+			_pos.setRow(_pos.getRow()+1);
+			_currentLine++;
+		} else {
+			_pos.setColumn(_pos.getColumn()+text.length());
+		}
+		_screen.setCursorPosition(_pos);
+		_screen.refresh();
+	}
+		
 	/**
 	 * writes text at a specified coordinate
 	 * @param xCoord the x coordinate

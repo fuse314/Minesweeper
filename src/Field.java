@@ -89,20 +89,44 @@ public class Field {
 	 * @return the string
 	 */
 	public String toString(boolean showMines) {
+		int _i = toInt(showMines);
+		switch(_i) {
+		case 0:
+			return " ";  // closed
+		case 9:
+			return "M";  // marked
+		case 10:
+			return "X";  // mine
+		case 11:
+			return "0";  // open, 0 proximity
+		default:
+			return Integer.toString(_i);			
+		}
+	}
+	
+	/**
+	 * integer to represent the field state.
+	 * 
+	 * @param showMines show all mines (after game over)
+	 * @return the integer (0=closed,1-8=proximity,9=marked,10=mine,11=open0
+	 */
+	public int toInt(boolean showMines) {
 		if(showMines) {
-			if(_mine) { return "X"; }
+			if(_mine) { return 10; }
 		}
 		switch(_zustand) {
 		case Markiert:
-			return "M";
+			return 9;
 		case Offen:
 			if(_mine) {
-				return "X";
+				return 10;
 			} else {
-				return Integer.toString(_proximity);
+				if(_proximity == 0)
+					return 11;
+				return _proximity;
 			}
 		default:
-			return " ";
+			return 0;
 		}
 	}
 }

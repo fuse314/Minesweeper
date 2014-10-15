@@ -36,7 +36,7 @@ public class Player {
 	public void setFoundMines(int foundMines) {
 		_foundMines = foundMines;
 	}
-
+	
 	/**
 	 * Sets the lives.
 	 *

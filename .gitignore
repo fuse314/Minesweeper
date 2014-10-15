@@ -1,4 +1,3 @@
 Highscore*.dat
-bin/*.class
-
+bin/
 *.class
